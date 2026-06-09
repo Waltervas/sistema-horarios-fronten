@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#B8952A;--gold-dark:#7A6018;--navy:#0D1B2A;--navy-mid:#1A2E44;--card-bg:var(--color-background-primary);--page-bg:var(--color-background-tertiary)}
+body{font-family:var(--font-sans,'Segoe UI',sans-serif);background:var(--page-bg);color:var(--color-text-primary);min-height:100vh}
+.lw{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.lc{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:2.5rem;width:100%;max-width:400px}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.logo-mark{width:42px;height:42px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark i{color:var(--gold);font-size:22px}
+.logo-text strong{display:block;font-size:14px;font-weight:500}
+.logo-text span{font-size:11px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.lc h2{font-size:18px;font-weight:500;margin-bottom:.25rem}
+.lc .sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.75rem}
+.fld{margin-bottom:1rem}
+.fld label{display:block;font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em}
+.fld input{width:100%;padding:9px 12px;border:0.5px solid var(--color-border-secondary);border-radius:8px;background:var(--card-bg);color:var(--color-text-primary);font-size:14px}
+.fld input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,149,42,.15)}
+.btn-login{width:100%;padding:11px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer}
+.btn-login:hover{background:var(--navy-mid)}
+.err{background:var(--color-background-danger);border:0.5px solid var(--color-border-danger);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--color-text-danger);margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.login-hint{margin-top:1.25rem;padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:8px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.login-hint strong{color:var(--color-text-primary);font-weight:500}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:224px;background:var(--navy);display:flex;flex-direction:column;flex-shrink:0}
+.sb-head{padding:1.25rem 1.25rem 1rem;border-bottom:0.5px solid rgba(255,255,255,.08)}
+.sb-logo{display:flex;align-items:center;gap:10px}
+.sb-lm{width:30px;height:30px;background:rgba(184,149,42,.15);border:0.5px solid rgba(184,149,42,.3);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.sb-lm i{color:var(--gold);font-size:16px}
+.sb-lt{display:flex;flex-direction:column}
+.sb-lt strong{font-size:12px;font-weight:500;color:#fff;line-height:1.3}
+.sb-lt span{font-size:10px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+.sb-sec{padding:.75rem 0}
+.sb-sec-lbl{padding:.5rem 1.25rem .25rem;font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 1.25rem;font-size:13px;cursor:pointer;color:rgba(255,255,255,.55);transition:background .12s,color .12s;border-left:2px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.nav-item.active{background:rgba(184,149,42,.12);color:var(--gold);border-left-color:var(--gold)}
+.nav-item i{font-size:15px;flex-shrink:0}
+.sb-foot{margin-top:auto;padding:.875rem 1.25rem;border-top:0.5px solid rgba(255,255,255,.08)}
+.uchip{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.uavatar{width:30px;height:30px;border-radius:50%;background:rgba(184,149,42,.18);border:0.5px solid rgba(184,149,42,.35);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--gold);flex-shrink:0}
+.uinfo p{font-size:12px;font-weight:500;color:#fff}
+.uinfo span{font-size:11px;color:rgba(255,255,255,.4)}
+.btn-out{display:flex;align-items:center;gap:6px;width:100%;padding:7px 10px;background:rgba(255,255,255,.05);border:0.5px solid rgba(255,255,255,.12);border-radius:8px;font-size:12px;color:rgba(255,255,255,.5);cursor:pointer}
+.btn-out:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+.main{flex:1;overflow-y:auto}
+.ph{padding:1.25rem 2rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--card-bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.ph-left h1{font-size:17px;font-weight:500}
+.ph-left p{font-size:12px;color:var(--color-text-secondary);margin-top:1px}
+.pb{padding:1.5rem 2rem}
+.card{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1.25rem;overflow:hidden}
+.card-pad{padding:1.25rem}
+.card-accent{border-top:2px solid var(--gold)}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem}
+.ch h3{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem}
+.stat-card{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.25rem;border-top:2px solid var(--gold)}
+.stat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;background:rgba(184,149,42,.12);color:var(--gold)}
+.stat-lbl{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.stat-val{font-size:24px;font-weight:500;line-height:1}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--card-bg);color:var(--color-text-primary);font-weight:500}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-primary:hover{background:var(--navy-mid)}
+.btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}.btn-gold:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
+.btn-r{background:none;color:var(--color-text-danger);border-color:var(--color-border-danger)}.btn-r:hover{background:var(--color-background-danger)}
+.btn-b{background:none;color:#185FA5;border-color:rgba(24,95,165,.3)}.btn-b:hover{background:#E6F1FB}
+.btn-o{background:none;color:#854F0B;border-color:rgba(133,79,11,.3)}.btn-o:hover{background:#FAEEDA}
+.btn-wa{background:#25D366;color:#fff;border-color:#25D366}.btn-wa:hover{background:#1DA851}
+.btn-sm{padding:5px 10px;font-size:11px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 12px;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+td{padding:9px 12px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.row-normal:hover td{background:var(--color-background-secondary)}
+tr.row-fest td{background:#FAEEDA !important}
+tr.row-fest:hover td{background:#f5e0c0 !important}
+tr.row-fest .day-label{color:#633806;font-weight:500}
+tr.row-fest .fest-pill{display:inline-flex !important;align-items:center;gap:3px;padding:1px 7px;background:#F0C070;border-radius:999px;font-size:11px;color:#412402;font-weight:500;margin-left:5px}
+tr.row-fest .dt-inp,tr.row-fest .ti-inp,tr.row-fest .est-sel{background:#F5E6C8 !important;border-color:#D4A654 !important}
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:500}
+.ba{background:#EEEDFE;color:#3C3489}.br{background:#E1F5EE;color:#085041}.bs{background:#FAEEDA;color:#633806}.bc{background:#E6F1FB;color:#0C447C}
+.bg-pend{background:#FAEEDA;color:#633806}.bg-proc{background:#E1F5EE;color:#085041}.bg-liq{background:#E6F1FB;color:#0C447C}
+.badge-gold{background:rgba(184,149,42,.12);color:var(--gold-dark);border:0.5px solid rgba(184,149,42,.25)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.ff{display:flex;flex-direction:column;gap:5px}
+.ff label{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em}
+.ff input,.ff select{padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:8px;background:var(--card-bg);color:var(--color-text-primary);font-size:13px}
+.ff input:focus,.ff select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,149,42,.12)}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.modal{background:var(--card-bg);border:0.5px solid var(--color-border-secondary);border-radius:12px;width:100%;max-width:960px;max-height:92vh;overflow-y:auto}
+.modal-head{padding:1.25rem 1.5rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:10px}
+.modal-head-icon{width:32px;height:32px;background:rgba(13,27,42,.07);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-head-icon i{font-size:17px;color:var(--navy)}
+.modal-head h3{font-size:15px;font-weight:500}
+.modal-body{padding:1.25rem 1.5rem}
+.mfoot{display:flex;gap:8px;justify-content:flex-end;padding:1rem 1.5rem;border-top:0.5px solid var(--color-border-tertiary);flex-wrap:wrap;background:var(--color-background-secondary)}
+.sc-table{overflow-x:auto}
+.sc-table table{min-width:740px}
+.ti-inp{width:82px;padding:5px 7px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:12px;background:var(--card-bg);color:var(--color-text-primary)}
+.ti-inp:focus{outline:none;border-color:var(--gold)}
+.ti-inp.inv{border-color:var(--color-text-danger)}
+select.est-sel{padding:5px 7px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:12px;background:var(--card-bg);color:var(--color-text-primary)}
+.dt-inp{padding:5px 7px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:12px;background:var(--card-bg);color:var(--color-text-primary)}
+.table-actions-bar{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);gap:.75rem;flex-wrap:wrap}
+.btn-add-day{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;border:0.5px dashed rgba(184,149,42,.5);background:transparent;color:var(--gold-dark);font-weight:500}
+.btn-add-day:hover{background:rgba(184,149,42,.08)}
+.legend-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);padding:.5rem 12px}
+.legend-sw{width:14px;height:14px;border-radius:3px;background:#FAEEDA;border:0.5px solid #D4A654;flex-shrink:0}
+.liq-section{background:var(--color-background-secondary);border-radius:8px;padding:1rem;margin-bottom:1rem}
+.liq-section h4{font-size:12px;font-weight:500;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary)}
+.liq-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.liq-row:last-child{border-bottom:none}
+.liq-total{display:flex;justify-content:space-between;align-items:center;padding:.875rem 1.25rem;background:var(--navy);border-radius:8px;font-size:14px;font-weight:500;color:#fff;margin-top:.75rem}
+.liq-total span:last-child{color:var(--gold)}
+.info-box{background:var(--color-background-secondary);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;padding:.75rem 1rem;font-size:12px;color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.6}
+.filter-bar{display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end}
+.filter-bar .ff{flex:1;min-width:130px}
+.tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);padding:0 1.25rem}
+.tab{padding:10px 14px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px;font-weight:500;letter-spacing:.02em;transition:color .12s;text-transform:uppercase}
+.tab:hover{color:var(--color-text-primary)}
+.tab.active{color:var(--navy);border-bottom-color:var(--gold)}
+.casino-group{border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.casino-group-header{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;background:var(--color-background-secondary);gap:.75rem;flex-wrap:wrap;border-left:3px solid var(--gold)}
+.cg-title{display:flex;align-items:center;gap:8px;font-weight:500;font-size:13px}
+.cg-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.liq-persona-block{border:0.5px solid var(--color-border-tertiary);border-radius:8px;margin-bottom:.75rem;overflow:hidden}
+.lpb-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--color-background-secondary);font-size:13px;font-weight:500}
+.lpb-body{padding:.75rem 1rem}
+.lpb-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.lpb-row:last-child{border-bottom:none}
+.liq-casino-total{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem;background:var(--navy);border-radius:8px;font-size:15px;font-weight:500;color:#fff;margin-top:1rem}
+.liq-casino-total span:last-child{color:var(--gold)}
+.liq-sub-total{display:flex;justify-content:space-between;align-items:center;padding:.5rem .75rem;background:rgba(184,149,42,.08);border-radius:8px;font-size:13px;color:var(--gold-dark);margin-top:.5rem}
+.changes-banner{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--color-background-secondary);border-left:2px solid var(--gold);border-radius:0 8px 8px 0;margin-bottom:1rem;font-size:13px;color:var(--color-text-secondary)}
+.empty{text-align:center;padding:3rem;color:var(--color-text-secondary)}
+.empty i{font-size:40px;margin-bottom:.75rem;display:block}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:999px;font-size:11px}
+hr.div{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0}
+.signatures-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;padding:1.25rem;border-top:0.5px solid var(--color-border-tertiary)}
+.sig-block{display:flex;flex-direction:column;gap:8px}
+.sig-label{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-secondary)}
+.sig-label i{font-size:14px;color:var(--gold)}
+.sig-canvas-wrap{position:relative;border:0.5px solid var(--color-border-secondary);border-radius:8px;background:var(--color-background-secondary);overflow:hidden}
+.sig-canvas-wrap canvas{display:block;cursor:crosshair;touch-action:none}
+.sig-canvas-wrap.signed{border-color:rgba(184,149,42,.5);background:rgba(184,149,42,.04)}
+.sig-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;pointer-events:none}
+.sig-hint i{font-size:22px;color:var(--color-border-secondary)}
+.sig-hint span{font-size:12px;color:var(--color-text-secondary)}
+.sig-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.sig-status{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-secondary)}
+.sig-status.ok{color:#085041}
+.sig-status.ok i{color:#1D9E75}
+.sig-status.pending{color:#633806}
+.btn-clear-sig{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:11px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary)}
+.btn-clear-sig:hover{background:var(--color-background-secondary)}
+.sig-remote-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.875rem 1rem}
+.sig-remote-box p{font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem;line-height:1.5}
+.log-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:500;white-space:nowrap}
+.log-login{background:#E1F5EE;color:#085041}.log-logout{background:var(--color-background-secondary);color:var(--color-text-secondary)}.log-create{background:#E6F1FB;color:#0C447C}.log-edit{background:#FAEEDA;color:#633806}.log-delete{background:#FCEBEB;color:#7C1F1F}.log-sign{background:rgba(184,149,42,.12);color:var(--gold-dark)}.log-save{background:#EEEDFE;color:#3C3489}.log-row-add{background:#E1F5EE;color:#085041}.log-row-del{background:#FCEBEB;color:#7C1F1F}.log-row-edit{background:#FAEEDA;color:#633806}.log-estado{background:#E6F1FB;color:#0C447C}.log-liquidado{background:rgba(184,149,42,.12);color:var(--gold-dark)}.log-firma-admin{background:#EEEDFE;color:#3C3489}.log-firma-emp{background:#E1F5EE;color:#085041}.log-link{background:#E6F1FB;color:#0C447C}
+.log-filter{display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:1.25rem}
+.log-filter .ff{flex:1;min-width:120px}
+.log-filter select,.log-filter input{padding:7px 10px;border:0.5px solid var(--color-border-secondary);border-radius:8px;background:var(--card-bg);color:var(--color-text-primary);font-size:13px;width:100%}
+.log-count{font-size:12px;color:var(--color-text-secondary)}
+.q-selector{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;padding:.875rem 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.historial-mes{border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1.25rem;overflow:hidden}
+.hm-header{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;background:var(--navy);cursor:pointer;gap:.75rem;flex-wrap:wrap}
+.hm-header:hover{background:var(--navy-mid)}
+.hm-title{display:flex;align-items:center;gap:10px;color:#fff;font-weight:500;font-size:14px}
+.hm-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.q-group{border-top:0.5px solid var(--color-border-tertiary)}
+.q-group-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;background:var(--color-background-secondary);gap:.75rem;flex-wrap:wrap;border-left:3px solid var(--gold)}
+.q-group-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.q-group-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.periodo-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:500}
+.periodo-q1{background:#E1F5EE;color:#085041}
+.periodo-q2{background:#E6F1FB;color:#0C447C}
+.portal-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--page-bg)}
+.portal-card{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:2rem;width:100%;max-width:600px}
+.portal-head{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.portal-info{background:var(--color-background-secondary);border-radius:8px;padding:1rem;margin-bottom:1.25rem;font-size:13px}
+.portal-info div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.portal-info div:last-child{border-bottom:none}
+.portal-info span:first-child{color:var(--color-text-secondary)}
+.portal-info span:last-child{font-weight:500}
+.portal-table-wrap{overflow-x:auto;margin-bottom:1.25rem;border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden}
+.portal-done{text-align:center;padding:2.5rem 1rem}
+.portal-done i{font-size:48px;color:#1D9E75;display:block;margin-bottom:1rem}
+.portal-done h3{font-size:18px;font-weight:500;margin-bottom:.5rem}
+.portal-done p{font-size:13px;color:var(--color-text-secondary)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+  const API = 'sistema-horarios-backend-production.up.railway.app/api';
+let TOKEN = localStorage.getItem('token') || '';
+
+async function api(method, path, body) {
+  const res = await fetch(API + path, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(TOKEN ? { Authorization: 'Bearer ' + TOKEN } : {})
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (!res.ok) throw await res.json();
+  return res.json();
+}
+const FEST_FIJOS=['01-01','05-01','07-20','08-07','12-08','12-25'];
+function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
+function addD(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function nextMon(d){const x=new Date(d),dow=x.getDay();if(dow===1)return x;x.setDate(x.getDate()+(dow===0?1:(8-dow)));return x}
+function ymd(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function buildFest(y){const s=new Set();FEST_FIJOS.forEach(m=>s.add(`${y}-${m}`));const e=easter(y);[addD(e,-7),addD(e,-3),addD(e,-2),e].forEach(d=>s.add(ymd(d)));[new Date(y,0,6),new Date(y,2,19),addD(e,39),addD(e,60),addD(e,68),new Date(y,5,29),new Date(y,7,15),new Date(y,9,12),new Date(y,10,1),new Date(y,10,11)].forEach(d=>s.add(ymd(nextMon(d))));return s}
+const FEST=new Set([...buildFest(2024),...buildFest(2025),...buildFest(2026),...buildFest(2027)]);
+function isDomFest(f){if(!f)return false;return new Date(f+'T12:00:00').getDay()===0||FEST.has(f)}
+function festLabel(f){if(!f)return'';const d=new Date(f+'T12:00:00').getDay()===0,fe=FEST.has(f);return d&&fe?'Dom · Festivo':d?'Domingo':fe?'Festivo':''}
+const DAYS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const SMMLV=1300000;
+function getQuincena(f){if(!f)return null;const d=new Date(f+'T12:00:00');return{year:d.getFullYear(),month:d.getMonth(),q:d.getDate()<=15?1:2}}
+function quincenaLabel(y,m,q){return`${q===1?'1ª':'2ª'} quincena — ${MESES[m]} ${y}`}
+function quincenaKey(y,m,q){return`${y}-${String(m+1).padStart(2,'0')}-Q${q}`}
+function quincenaPeriodo(y,m,q){const ini=q===1?`01/${String(m+1).padStart(2,'0')}/${y}`:`16/${String(m+1).padStart(2,'0')}/${y}`;const fin=q===1?`15/${String(m+1).padStart(2,'0')}/${y}`:`${new Date(y,m+1,0).getDate()}/${String(m+1).padStart(2,'0')}/${y}`;return`${ini} – ${fin}`}
+function currentQ(){const n=new Date();return{year:n.getFullYear(),month:n.getMonth(),q:n.getDate()<=15?1:2}}
+function genQOpts(){const res=[];const now=new Date();for(let m=0;m<7;m++){const d=new Date(now.getFullYear(),now.getMonth()-m,1);const y=d.getFullYear(),mo=d.getMonth();res.push({year:y,month:mo,q:2,key:quincenaKey(y,mo,2),label:quincenaLabel(y,mo,2),periodo:quincenaPeriodo(y,mo,2)});res.push({year:y,month:mo,q:1,key:quincenaKey(y,mo,1),label:quincenaLabel(y,mo,1),periodo:quincenaPeriodo(y,mo,1)})}return res}
+
+const DD={
+  empresas:[{id:1,nombre:'HSQ Inversiones SAS'},{id:2,nombre:'Recrear Maquinas SAS'}],
+  casinos:[{id:1,eId:1,nombre:'Casino Nutibara'},{id:2,eId:1,nombre:'Casino La Estación'},{id:3,eId:1,nombre:'Casino Juegos 2000'},{id:4,eId:1,nombre:'Casino Ventura Bello'},{id:5,eId:1,nombre:'Casino Plaza Berrio'},{id:6,eId:1,nombre:'Casino Galeone Maicao'},{id:7,eId:1,nombre:'Casino Galeone Uribia'},{id:8,eId:2,nombre:'Casino Recrear Centro'},{id:9,eId:2,nombre:'Casino Recrear Norte'},{id:10,eId:2,nombre:'Casino Recrear Premium'}],
+  usuarios:[{id:1,usuario:'admin',password:'admin123',rol:'Administrador',eId:null,cId:null},{id:2,usuario:'rrhh1',password:'rrhh123',rol:'RRHH',eId:1,cId:null},{id:3,usuario:'sup1',password:'sup123',rol:'Supervisor',eId:1,cId:1},{id:4,usuario:'casino1',password:'cas123',rol:'Casino',eId:1,cId:1},{id:5,usuario:'casino2',password:'cas456',rol:'Casino',eId:2,cId:8}],
+  horarios:[],logs:[]
+};
+const SIG={admin:null};
+const cq=currentQ();
+let S={
+  view:'login',user:null,data:JSON.parse(JSON.stringify(DD)),
+  menu:'dashboard',modal:null,mdata:{},loginErr:'',
+  emp:{nombre:'',documento:'',cargo:'',cId:'',eId:''},
+  rows:[],selQ:{year:cq.year,month:cq.month,q:cq.q},
+  nid:100,selEmp:null,
+  rrhhFiltro:{eId:'',cId:'',texto:'',qKey:''},rrhhTab:'lista',
+  histFiltro:{eId:'',cId:'',expandedMes:null,expandedQ:null},
+  editHorario:null,liqId:null,liqCasinoId:null,
+  logFiltro:{tipo:'',usuario:'',texto:''}
+};
+function gid(){return++S.nid}
+function render(){
+  const hash=window.location.hash;
+  if(hash.startsWith('#firmar/')){const hId=parseInt(hash.replace('#firmar/',''));document.getElementById('app').innerHTML=rPortal(hId);bPortal(hId);return}
+  document.getElementById('app').innerHTML=S.view==='login'?rLogin():rApp();
+  S.view==='login'?bLogin():bApp();
+}
+function getH(id){return S.data.horarios.find(h=>h.id===id)||null}
+function getCasNombre(cId){return S.data.casinos.find(c=>c.id===parseInt(cId))?.nombre||'?'}
+const LOG_CSS={login:'log-login',logout:'log-logout',create:'log-create',edit:'log-edit',delete:'log-delete',sign:'log-sign',save:'log-save','row-add':'log-row-add','row-del':'log-row-del','row-edit':'log-row-edit',estado:'log-estado',liquidado:'log-liquidado','firma-admin':'log-firma-admin','firma-emp':'log-firma-emp',link:'log-link'};
+const LOG_LABELS={login:'Acceso',logout:'Salida',create:'Crear',edit:'Editar',delete:'Eliminar',sign:'Firma',save:'Guardar','row-add':'Fila +','row-del':'Fila −','row-edit':'Fila ✎',estado:'Estado',liquidado:'Liquidado','firma-admin':'Firma Admin','firma-emp':'Firma Emp.',link:'Link WA'};
+function addLog(tipo,desc,detalle,usr){S.data.logs.unshift({id:gid(),tipo,desc,detalle:detalle||null,usuario:usr||(S.user?S.user.usuario:'sistema'),ts:new Date().toISOString()});if(S.data.logs.length>300)S.data.logs=S.data.logs.slice(0,300)}
+function fmtTs(ts){const d=new Date(ts);return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+
+/* ── LOGIN ── */
+function rLogin(){return`<div class="lw"><div class="lc">
+  <div class="login-logo"><div class="logo-mark"><i class="ti ti-diamond"></i></div>
+  <div class="logo-text"><strong>Sistema de Horarios</strong><span>Gestión de turnos</span></div></div>
+  <h2>Iniciar sesión</h2><p class="sub">Acceso al sistema de gestión</p>
+  ${S.loginErr?`<div class="err"><i class="ti ti-alert-circle"></i>${S.loginErr}</div>`:''}
+  <div class="fld"><label>Usuario</label><input id="lu" type="text" placeholder="Nombre de usuario"></div>
+  <div class="fld"><label>Contraseña</label><input id="lp" type="password" placeholder="••••••••"></div>
+  <button class="btn-login" id="lbtn"><i class="ti ti-login" style="vertical-align:-2px;margin-right:4px"></i>Ingresar al sistema</button>
+  <div class="login-hint"><strong>Accesos de prueba:</strong><br>admin / admin123 · rrhh1 / rrhh123<br>casino1 / cas123 · casino2 / cas456</div>
+</div></div>`}
+function bLogin(){document.getElementById('lbtn').onclick=doLogin;document.getElementById('lp').onkeypress=e=>{if(e.key==='Enter')doLogin()}}
+async function doLogin() {
+  const u = document.getElementById('lu').value.trim();
+  const p = document.getElementById('lp').value.trim();
+  try {
+    const data = await api('POST', '/auth/login', { usuario: u, password: p });
+    TOKEN = data.token;
+    localStorage.setItem('token', TOKEN);
+    S.user = data;
+    S.view = 'app';
+    S.menu = data.rol === 'Casino' ? 'horarios' : 'dashboard';
+    if (data.rol === 'Casino') {
+      S.emp.eId = data.empresa_id;
+      S.emp.cId = data.casino_id;
+    }
+    await cargarDatos();
+    render();
+  } catch {
+    S.loginErr = 'Credenciales incorrectas';
+    render();
+  }
+}
+
+async function cargarDatos() {
+  const [empresas, casinos, usuarios, horarios] = await Promise.all([
+    api('GET', '/empresas'),
+    api('GET', '/casinos'),
+    S.user.rol === 'Administrador' ? api('GET', '/usuarios') : Promise.resolve([]),
+    api('GET', '/horarios')
+  ]);
+  S.data.empresas  = empresas;
+  S.data.casinos   = casinos.map(c => ({ ...c, eId: c.empresa_id }));
+  S.data.usuarios  = usuarios;
+  S.data.horarios  = horarios.map(h => ({
+    ...h,
+    empleado: {
+      nombre: h.empleado_nombre,
+      documento: h.empleado_documento,
+      cargo: h.empleado_cargo,
+      eId: h.empresa_id,
+      cId: h.casino_id
+    },
+    quincena: {
+      year: h.quincena_year,
+      month: h.quincena_mes,
+      q: h.quincena_q
+    }
+  }));
+}
+
+/* ── NAV ── */
+function buildNav(rol){
+  const base={
+    Administrador:[{l:'General',items:[['dashboard','ti-layout-dashboard','Panel principal'],['empresas','ti-building-store','Empresas'],['usuarios','ti-users','Usuarios']]},{l:'Sistema',items:[['logs','ti-activity','Registro de logs']]}],
+    RRHH:[{l:'General',items:[['dashboard','ti-layout-dashboard','Panel principal'],['consulta','ti-search','Consulta horarios']]}],
+    Supervisor:[{l:'General',items:[['dashboard','ti-layout-dashboard','Panel principal']]}],
+    Casino:[{l:'Operaciones',items:[['horarios','ti-calendar-event','Registrar horario']]}]
+  };
+  return(base[rol]||[]).map(s=>`<div class="sb-sec"><div class="sb-sec-lbl">${s.l}</div>
+    ${s.items.map(([id,ic,lb])=>`<div class="nav-item${S.menu===id?' active':''}" data-menu="${id}"><i class="ti ${ic}"></i>${lb}</div>`).join('')}
+  </div>`).join('');
+}
+function rApp(){return`<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-head"><div class="sb-logo">
+      <div class="sb-lm"><i class="ti ti-diamond"></i></div>
+      <div class="sb-lt"><strong>Sistema de Horarios</strong><span>Casinos</span></div>
+    </div></div>
+    ${buildNav(S.user.rol)}
+    <div class="sb-foot">
+      <div class="uchip"><div class="uavatar">${S.user.usuario[0].toUpperCase()}</div>
+      <div class="uinfo"><p>${S.user.usuario}</p><span>${S.user.rol}</span></div></div>
+      <button class="btn-out" id="lout"><i class="ti ti-logout"></i>Cerrar sesión</button>
+    </div>
+  </aside>
+  <main class="main">${rPage()}</main>
+</div>${S.modal?rModal():''}`}
+function rPage(){switch(S.menu){case'dashboard':return rDash();case'empresas':return rEmpresas();case'usuarios':return rUsuarios();case'horarios':return rHorarios();case'consulta':return rConsulta();case'logs':return rLogs();default:return rDash()}}
+
+/* ── DASHBOARD ── */
+function rDash(){
+  const{empresas,casinos,usuarios,horarios,logs}=S.data;
+  return`<div class="ph"><div class="ph-left"><h1>Panel principal</h1><p>Resumen general del sistema</p></div></div>
+  <div class="pb">
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon"><i class="ti ti-building-store" style="font-size:16px"></i></div><div class="stat-lbl">Empresas</div><div class="stat-val">${empresas.length}</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="ti ti-diamond" style="font-size:16px"></i></div><div class="stat-lbl">Casinos</div><div class="stat-val">${casinos.length}</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="ti ti-users" style="font-size:16px"></i></div><div class="stat-lbl">Usuarios</div><div class="stat-val">${usuarios.length}</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="ti ti-calendar-check" style="font-size:16px"></i></div><div class="stat-lbl">Horarios</div><div class="stat-val">${horarios.length}</div></div>
+    </div>
+    ${S.user.rol==='Administrador'?`<div class="card card-pad" style="margin-bottom:1.25rem">
+      <div class="ch"><h3>Últimos eventos</h3><button class="btn btn-sm" id="dash-logs-btn">Ver todos</button></div>
+      ${logs.slice(0,5).map(l=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)">
+        <span class="log-chip ${LOG_CSS[l.tipo]||'log-save'}" style="flex-shrink:0">${LOG_LABELS[l.tipo]||l.tipo}</span>
+        <span style="font-size:12px;flex:1">${l.desc}</span>
+        <span style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap">${fmtTs(l.ts)}</span>
+      </div>`).join('')}
+      ${!logs.length?'<div style="font-size:13px;color:var(--color-text-secondary);padding:.75rem 0">Sin eventos aún.</div>':''}
+    </div>`:''}
+    ${empresas.map(e=>{const cs=casinos.filter(c=>c.eId===e.id);return`<div class="card card-pad" style="margin-bottom:1rem">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:.875rem">
+        <i class="ti ti-building-store" style="font-size:15px;color:var(--gold)"></i>
+        <span style="font-weight:500;font-size:14px">${e.nombre}</span>
+        <span class="badge badge-gold">${cs.length} casino${cs.length!==1?'s':''}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">${cs.map(c=>`<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:999px;font-size:12px"><i class="ti ti-diamond" style="font-size:11px;color:var(--gold)"></i>${c.nombre}</span>`).join('')}</div>
+    </div>`}).join('')}
+  </div>`;
+}
+
+/* ── EMPRESAS ── */
+function rEmpresas(){
+  const{empresas,casinos}=S.data,se=S.selEmp?empresas.find(e=>e.id===S.selEmp):null;
+  return`<div class="ph"><div class="ph-left"><h1>Gestión de empresas</h1></div><button class="btn btn-primary" id="ne-btn"><i class="ti ti-plus"></i>Nueva empresa</button></div>
+  <div class="pb">
+    <div class="card"><table><thead><tr><th>Empresa</th><th>Casinos</th><th>Acciones</th></tr></thead>
+    <tbody>${empresas.map(e=>{const n=casinos.filter(c=>c.eId===e.id).length;return`<tr class="row-normal"><td><span style="font-weight:500">${e.nombre}</span></td>
+      <td><span class="tag"><i class="ti ti-diamond" style="font-size:11px;color:var(--gold)"></i>${n}</span></td>
+      <td style="display:flex;gap:4px"><button class="btn btn-sm" data-sc="${e.id}">Ver</button>
+      <button class="btn btn-sm btn-gold" data-ac="${e.id}"><i class="ti ti-plus"></i>Casino</button>
+      <button class="btn btn-sm btn-r" data-de="${e.id}"><i class="ti ti-trash"></i></button></td></tr>`}).join('')}</tbody></table></div>
+    ${se?`<div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)">
+        <span style="font-weight:500;font-size:13px">Casinos — ${se.nombre}</span>
+        <button class="btn btn-sm" id="cc-btn"><i class="ti ti-x"></i></button>
+      </div>
+      <table><thead><tr><th>Casino</th><th></th></tr></thead>
+      <tbody>${casinos.filter(c=>c.eId===se.id).map(c=>`<tr class="row-normal"><td><i class="ti ti-diamond" style="font-size:12px;color:var(--gold);margin-right:6px"></i>${c.nombre}</td>
+        <td><button class="btn btn-sm btn-r" data-dc="${c.id}"><i class="ti ti-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`:''}
+  </div>`;
+}
+
+/* ── USUARIOS ── */
+function rUsuarios(){
+  const{usuarios,empresas,casinos}=S.data;
+  return`<div class="ph"><div class="ph-left"><h1>Gestión de usuarios</h1></div><button class="btn btn-primary" id="nu-btn"><i class="ti ti-plus"></i>Nuevo usuario</button></div>
+  <div class="pb"><div class="card"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Empresa</th><th>Casino</th><th></th></tr></thead>
+  <tbody>${usuarios.map(u=>{const e=empresas.find(x=>x.id===u.eId),c=casinos.find(x=>x.id===u.cId);const rb={Administrador:'ba',RRHH:'br',Supervisor:'bs',Casino:'bc'}[u.rol]||'bc';
+    return`<tr class="row-normal"><td><span style="font-weight:500">${u.usuario}</span></td>
+      <td><span class="badge ${rb}">${u.rol}</span></td>
+      <td style="font-size:12px">${e?e.nombre:'<span style="color:var(--color-text-secondary)">Todas</span>'}</td>
+      <td style="font-size:12px">${c?c.nombre:'<span style="color:var(--color-text-secondary)">Todos</span>'}</td>
+      <td><button class="btn btn-sm btn-r" data-du="${u.id}"><i class="ti ti-trash"></i></button></td></tr>`}).join('')}</tbody></table></div></div>`;
+}
+
+/* ── TABLA DÍAS ── */
+function renderRowsTable(rows,isEdit,showSave){
+  const addId=isEdit?'edit-add-row':'add-row';
+  const saveBtn=showSave?`<button class="btn btn-primary" id="save-sch"><i class="ti ti-device-floppy"></i>Guardar horario</button>`:'';
+  const rowsHtml=rows.length===0?`<div class="empty"><i class="ti ti-calendar-off"></i><p>Aún no hay días registrados.</p></div>`
+    :`<div class="sc-table"><table><thead><tr><th>Fecha</th><th>Día</th><th>Estado</th><th>Entrada</th><th>Salida</th><th>Horas</th><th></th></tr></thead>
+      <tbody>${rows.map((r,i)=>{
+        const dn=r.fecha?DAYS[new Date(r.fecha+'T12:00:00').getDay()]:'-';
+        const isH=r.estado==='Horario',fest=isDomFest(r.fecha),fl=festLabel(r.fecha);
+        const hrs=isH&&r.entrada&&r.salida&&!r.entradaErr&&!r.salidaErr?calcHrs(r.entrada,r.salida):null;
+        return`<tr class="${fest?'row-fest':'row-normal'}">
+          <td><input class="dt-inp" type="date" data-r="${i}" data-f="fecha" data-edit="${isEdit?1:0}" value="${r.fecha||''}"></td>
+          <td><span class="day-label">${dn}</span>${fest?`<span class="fest-pill"><i class="ti ti-sun" style="font-size:11px"></i>${fl}</span>`:''}</td>
+          <td><select class="est-sel" data-r="${i}" data-f="estado" data-edit="${isEdit?1:0}">
+            <option value="Horario" ${r.estado==='Horario'?'selected':''}>Horario</option>
+            <option value="Compensatorio" ${r.estado==='Compensatorio'?'selected':''}>Compensatorio</option>
+            <option value="Incapacidad" ${r.estado==='Incapacidad'?'selected':''}>Incapacidad</option>
+            <option value="Vacaciones" ${r.estado==='Vacaciones'?'selected':''}>Vacaciones</option>
+          </select></td>
+          <td>${isH?`<input class="ti-inp${r.entradaErr?' inv':''}" type="text" maxlength="5" placeholder="00:00" data-r="${i}" data-f="entrada" data-edit="${isEdit?1:0}" value="${r.entrada||''}">`:'<span style="font-size:12px;color:var(--color-text-secondary)">—</span>'}</td>
+          <td>${isH?`<input class="ti-inp${r.salidaErr?' inv':''}" type="text" maxlength="5" placeholder="00:00" data-r="${i}" data-f="salida" data-edit="${isEdit?1:0}" value="${r.salida||''}">`:'<span style="font-size:12px;color:var(--color-text-secondary)">—</span>'}</td>
+          <td style="font-size:12px;color:var(--color-text-secondary)">${hrs!==null?hrs.toFixed(2)+'h':'—'}</td>
+          <td>${isEdit?`<button class="btn btn-sm btn-r" data-edr="${i}"><i class="ti ti-trash"></i></button>`:`<button class="btn btn-sm btn-r" data-dr="${i}"><i class="ti ti-trash"></i></button>`}</td>
+        </tr>`;}).join('')}
+      </tbody></table>
+      <div class="legend-row"><div class="legend-sw"></div><span>Domingo o festivo colombiano</span></div>
+    </div>`;
+  return`${rowsHtml}<div class="table-actions-bar">
+    <button class="btn-add-day" id="${addId}"><i class="ti ti-calendar-plus"></i>Agregar día</button>
+    ${saveBtn}
+  </div>`;
+}
+
+/* ── FIRMAS ── */
+function rSignatures(){
+  return`<div class="signatures-grid">
+    ${rSigBlock('admin','Firma del administrador del casino',!!SIG.admin)}
+    <div class="sig-block">
+      <div class="sig-label"><i class="ti ti-writing-sign"></i>Firma del empleado</div>
+      <div class="sig-remote-box">
+        <p>El empleado firma desde su dispositivo usando el link generado al guardar el horario.</p>
+        <div style="display:flex;align-items:center;gap:6px;padding:.5rem .75rem;background:var(--color-background-secondary);border-radius:8px;border:0.5px dashed var(--color-border-secondary);font-size:12px;color:var(--color-text-secondary)">
+          <i class="ti ti-info-circle" style="font-size:14px;color:var(--gold);flex-shrink:0"></i>El link se genera al guardar y puede enviarse por WhatsApp.
+        </div>
+      </div>
+      <div class="sig-actions"><div class="sig-status pending"><i class="ti ti-clock"></i>Pendiente — se genera al guardar</div></div>
+    </div>
+  </div>`;
+}
+function rSigBlock(id,label,signed){
+  return`<div class="sig-block">
+    <div class="sig-label"><i class="ti ti-writing-sign"></i>${label}</div>
+    <div class="sig-canvas-wrap${signed?' signed':''}" id="sig-wrap-${id}">
+      <canvas id="sig-canvas-${id}" width="280" height="110"></canvas>
+      ${!signed?`<div class="sig-hint" id="sig-hint-${id}"><i class="ti ti-pencil"></i><span>Firmar aquí</span></div>`:''}
+    </div>
+    <div class="sig-actions" id="sig-act-${id}">
+      <div class="sig-status${signed?' ok':''}">
+        ${signed?`<i class="ti ti-circle-check"></i>Firma registrada`:`<i class="ti ti-circle-dashed"></i>Sin firma`}
+      </div>
+      ${signed?`<button class="btn-clear-sig" data-clear-sig="${id}"><i class="ti ti-trash" style="font-size:11px"></i>Limpiar</button>`:''}
+    </div>
+  </div>`;
+}
+
+/* ── HORARIOS ── */
+function rHorarios(){
+  const u=S.user,{empresas,casinos}=S.data,e=S.emp;
+  const avEmp=u.rol==='Casino'?empresas.filter(x=>x.id===u.eId):empresas;
+  const selE=e.eId?parseInt(e.eId):null;
+  const avCas=selE?casinos.filter(c=>c.eId===selE):[];
+  const fCas=u.rol==='Casino'?avCas.filter(c=>c.id===u.cId):avCas;
+  const cas=casinos.find(c=>c.id===parseInt(e.cId));
+  const q=S.selQ,opts=genQOpts().slice(0,6),selOpt=opts.find(o=>o.key===quincenaKey(q.year,q.month,q.q))||opts[0];
+  return`<div class="ph"><div class="ph-left"><h1>Registrar horario</h1><p>${u.rol==='Casino'&&cas?cas.nombre:'Ingreso de turnos'}</p></div></div>
+  <div class="pb">
+    <div class="card card-pad">
+      <div class="ch"><h3>Período — Quincena</h3>
+        <span class="periodo-badge ${q.q===1?'periodo-q1':'periodo-q2'}"><i class="ti ti-calendar-week" style="font-size:12px"></i>${q.q===1?'1ª':'2ª'} Quincena · ${MESES[q.month]} ${q.year}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+        <div class="ff" style="flex:1;min-width:200px"><label>Seleccionar quincena</label>
+          <select id="q-sel-form">${opts.map(o=>`<option value="${o.key}" ${o.key===quincenaKey(q.year,q.month,q.q)?'selected':''}>${o.label}</option>`).join('')}</select></div>
+        <div style="font-size:12px;color:var(--color-text-secondary);padding-top:1.25rem">
+          <i class="ti ti-calendar-event" style="font-size:13px;color:var(--gold);vertical-align:-1px"></i>
+          Período: <strong style="color:var(--color-text-primary)">${selOpt?selOpt.periodo:'—'}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card card-pad"><div class="ch"><h3>Datos del empleado</h3></div>
+      <div class="form-grid">
+        <div class="ff"><label>Nombre completo</label><input type="text" id="en" value="${e.nombre}" placeholder="Nombre del empleado"></div>
+        <div class="ff"><label>N° documento</label><input type="text" id="ed" value="${e.documento||''}" placeholder="Cédula o pasaporte"></div>
+        <div class="ff"><label>Cargo</label><input type="text" id="ec" value="${e.cargo||''}" placeholder="Cargo o posición"></div>
+        <div class="ff"><label>Empresa</label><select id="ee" ${u.rol==='Casino'?'disabled':''}><option value="">Seleccionar...</option>
+          ${avEmp.map(x=>`<option value="${x.id}" ${selE===x.id?'selected':''}>${x.nombre}</option>`).join('')}</select></div>
+        <div class="ff"><label>Casino</label><select id="eca" ${u.rol==='Casino'?'disabled':''}><option value="">Seleccionar...</option>
+          ${fCas.map(c=>`<option value="${c.id}" ${parseInt(e.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div>
+      </div>
+    </div>
+    <div class="card" style="overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem 0">
+        <h3 style="font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary)">Registro de días</h3>
+        <span style="font-size:12px;color:var(--color-text-secondary)">${S.rows.length} día${S.rows.length!==1?'s':''}</span>
+      </div>
+      ${renderRowsTable(S.rows,false,true)}
+    </div>
+    <div class="card" style="overflow:hidden">
+      <div style="padding:.875rem 1.25rem 0;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-writing-sign" style="font-size:15px;color:var(--gold)"></i>
+        <h3 style="font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary)">Firmas de conformidad</h3>
+      </div>
+      ${rSignatures()}
+    </div>
+  </div>`;
+}
+
+/* ── CONSULTA RRHH ── */
+function rConsulta(){
+  return`<div class="ph"><div class="ph-left"><h1>Consulta de horarios</h1><p>Revisión, edición, liquidación e historial</p></div></div>
+  <div class="pb">
+    <div class="card" style="overflow:hidden;margin-bottom:0">
+      <div class="tabs" style="padding-top:4px">
+        <div class="tab${S.rrhhTab==='lista'?' active':''}" data-tab="lista"><i class="ti ti-list" style="font-size:13px;vertical-align:-1px;margin-right:5px"></i>Registros activos</div>
+        <div class="tab${S.rrhhTab==='historial'?' active':''}" data-tab="historial"><i class="ti ti-history" style="font-size:13px;vertical-align:-1px;margin-right:5px;color:var(--gold)"></i>Historial por quincena</div>
+      </div>
+    </div>
+    <div style="margin-top:1.25rem">${S.rrhhTab==='lista'?rTabLista():rTabHistorial()}</div>
+  </div>`;
+}
+
+function rTabLista(){
+  const{horarios,empresas,casinos}=S.data,f=S.rrhhFiltro;
+  const selE=f.eId?parseInt(f.eId):null,avCas=selE?casinos.filter(c=>c.eId===selE):casinos;
+  const opts=genQOpts();
+  let lista=horarios;
+  if(selE)lista=lista.filter(h=>parseInt(h.empleado.eId)===selE);
+  if(f.cId)lista=lista.filter(h=>parseInt(h.empleado.cId)===parseInt(f.cId));
+  if(f.texto)lista=lista.filter(h=>h.empleado.nombre.toLowerCase().includes(f.texto.toLowerCase())||h.empleado.documento?.includes(f.texto));
+  if(f.qKey)lista=lista.filter(h=>h.quincenaKey===f.qKey);
+  return`<div class="card card-pad">
+    <div class="ch"><h3>Filtros</h3><span style="font-size:12px;color:var(--color-text-secondary)">${lista.length} registro${lista.length!==1?'s':''}</span></div>
+    <div class="filter-bar">
+      <div class="ff"><label>Empresa</label><select id="f-emp"><option value="">Todas</option>${empresas.map(e=>`<option value="${e.id}" ${selE===e.id?'selected':''}>${e.nombre}</option>`).join('')}</select></div>
+      <div class="ff"><label>Casino</label><select id="f-cas"><option value="">Todos</option>${avCas.map(c=>`<option value="${c.id}" ${parseInt(f.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div>
+      <div class="ff"><label>Quincena</label><select id="f-q"><option value="">Todas</option>${opts.map(o=>`<option value="${o.key}" ${f.qKey===o.key?'selected':''}>${o.label}</option>`).join('')}</select></div>
+      <div class="ff" style="flex:2"><label>Buscar</label><input type="text" id="f-txt" value="${f.texto}" placeholder="Nombre o documento..."></div>
+    </div>
+  </div>
+  ${lista.length===0?`<div class="card card-pad"><div class="empty"><i class="ti ti-search"></i><p>No hay registros que coincidan.</p></div></div>`:`
+  <div class="card" style="overflow:hidden">
+    <table><thead><tr><th>Empleado</th><th>Casino</th><th>Quincena</th><th>Días</th><th>Horas</th><th>Firmas</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <tbody>${lista.map(h=>{
+      const cas=casinos.find(c=>c.id===parseInt(h.empleado.cId));
+      const st=h.estado||'Pendiente',sb={Pendiente:'bg-pend',Procesado:'bg-proc',Liquidado:'bg-liq'}[st]||'bg-pend';
+      const totalH=h.rows.filter(r=>r.estado==='Horario'&&r.entrada&&r.salida&&!r.entradaErr&&!r.salidaErr).reduce((a,r)=>a+calcHrs(r.entrada,r.salida),0);
+      const qBadge=h.quincena?`<span class="periodo-badge ${h.quincena.q===1?'periodo-q1':'periodo-q2'}" style="font-size:10px">${h.quincena.q===1?'1ª':'2ª'}Q · ${MESES[h.quincena.month]?.substring(0,3)} ${h.quincena.year}</span>`:'<span style="font-size:11px;color:var(--color-text-secondary)">—</span>';
+      return`<tr class="row-normal">
+        <td><span style="font-weight:500">${h.empleado.nombre}</span><div style="font-size:11px;color:var(--color-text-secondary)">${h.empleado.documento||''}</div></td>
+        <td style="font-size:12px">${cas?cas.nombre:'—'}</td>
+        <td>${qBadge}</td>
+        <td><span class="tag">${h.rows.length}</span></td>
+        <td style="font-size:12px;color:var(--color-text-secondary)">${totalH>0?totalH.toFixed(1)+'h':'—'}</td>
+        <td>${sigStatus(h)}</td>
+        <td><span class="badge ${sb}">${st}</span></td>
+        <td><div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn btn-sm btn-b" data-edit="${h.id}"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm btn-o" data-liq="${h.id}"><i class="ti ti-calculator"></i></button>
+          <button class="btn btn-sm btn-wa" data-wa="${h.id}"><i class="ti ti-brand-whatsapp"></i></button>
+          <button class="btn btn-sm btn-r" data-dh="${h.id}"><i class="ti ti-trash"></i></button>
+        </div></td>
+      </tr>`;}).join('')}
+    </tbody></table>
+  </div>`}`;
+}
+
+function rTabHistorial(){
+  const{horarios,empresas,casinos}=S.data,f=S.histFiltro;
+  const selE=f.eId?parseInt(f.eId):null,avCas=selE?casinos.filter(c=>c.eId===selE):casinos;
+  let lista=horarios;
+  if(selE)lista=lista.filter(h=>parseInt(h.empleado.eId)===selE);
+  if(f.cId)lista=lista.filter(h=>parseInt(h.empleado.cId)===parseInt(f.cId));
+  const byMes={};
+  lista.forEach(h=>{if(!h.quincena)return;const{year,month,q}=h.quincena,mesKey=`${year}-${String(month+1).padStart(2,'0')}`,qk=quincenaKey(year,month,q);if(!byMes[mesKey])byMes[mesKey]={year,month,quincenas:{}};if(!byMes[mesKey].quincenas[qk])byMes[mesKey].quincenas[qk]={year,month,q,key:qk,horarios:[]};byMes[mesKey].quincenas[qk].horarios.push(h)});
+  const mesesKeys=Object.keys(byMes).sort().reverse();
+  return`<div class="card card-pad">
+    <div class="ch"><h3>Filtros de historial</h3></div>
+    <div class="filter-bar">
+      <div class="ff"><label>Empresa</label><select id="h-emp"><option value="">Todas</option>${empresas.map(e=>`<option value="${e.id}" ${selE===e.id?'selected':''}>${e.nombre}</option>`).join('')}</select></div>
+      <div class="ff"><label>Casino</label><select id="h-cas"><option value="">Todos</option>${avCas.map(c=>`<option value="${c.id}" ${parseInt(f.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div>
+    </div>
+  </div>
+  ${mesesKeys.length===0?`<div class="card card-pad"><div class="empty"><i class="ti ti-history"></i><p>Sin historial. Guarda horarios para verlos aquí.</p></div></div>`:''}
+  ${mesesKeys.map(mKey=>{
+    const mes=byMes[mKey];
+    const totalH=Object.values(mes.quincenas).reduce((a,q)=>a+q.horarios.reduce((b,h)=>b+h.rows.filter(r=>r.estado==='Horario'&&r.entrada&&r.salida&&!r.entradaErr&&!r.salidaErr).reduce((c,r)=>c+calcHrs(r.entrada,r.salida),0),0),0);
+    const totalHors=Object.values(mes.quincenas).reduce((a,q)=>a+q.horarios.length,0);
+    const isExpMes=S.histFiltro.expandedMes===mKey;
+    return`<div class="historial-mes">
+      <div class="hm-header" data-expand-mes="${mKey}">
+        <div class="hm-title"><i class="ti ti-calendar-month" style="font-size:16px;color:var(--gold)"></i>${MESES[mes.month]} ${mes.year}</div>
+        <div class="hm-meta">
+          <span class="tag" style="color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)">${totalHors} horario${totalHors!==1?'s':''}</span>
+          <span class="tag" style="color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)">${totalH.toFixed(1)}h</span>
+          <span class="tag" style="color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)">${Object.keys(mes.quincenas).length} quincena${Object.keys(mes.quincenas).length!==1?'s':''}</span>
+          <i class="ti ${isExpMes?'ti-chevron-up':'ti-chevron-down'}" style="color:rgba(255,255,255,.6);font-size:14px"></i>
+        </div>
+      </div>
+      ${isExpMes?`<div>
+        ${Object.values(mes.quincenas).sort((a,b)=>b.q-a.q).map(qg=>{
+          const isExpQ=S.histFiltro.expandedQ===qg.key;
+          const qTotalH=qg.horarios.reduce((a,h)=>a+h.rows.filter(r=>r.estado==='Horario'&&r.entrada&&r.salida&&!r.entradaErr&&!r.salidaErr).reduce((b,r)=>b+calcHrs(r.entrada,r.salida),0),0);
+          const liqCount=qg.horarios.filter(h=>h.estado==='Liquidado').length;
+          return`<div class="q-group">
+            <div class="q-group-header" data-expand-q="${qg.key}">
+              <div class="q-group-title">
+                <span class="periodo-badge ${qg.q===1?'periodo-q1':'periodo-q2'}"><i class="ti ti-calendar-week" style="font-size:11px"></i>${qg.q===1?'1ª':'2ª'} Quincena</span>
+                <span style="font-size:12px;color:var(--color-text-secondary)">${quincenaPeriodo(qg.year,qg.month,qg.q)}</span>
+              </div>
+              <div class="q-group-meta">
+                <span class="tag">${qg.horarios.length} empleado${qg.horarios.length!==1?'s':''}</span>
+                <span class="tag">${qTotalH.toFixed(1)}h</span>
+                <span class="badge ${liqCount===qg.horarios.length?'bg-liq':'bg-pend'}">${liqCount}/${qg.horarios.length} liquidados</span>
+                <button class="btn btn-sm btn-gold" data-liq-q="${qg.key}"><i class="ti ti-calculator"></i>Liquidar Q</button>
+                <i class="ti ${isExpQ?'ti-chevron-up':'ti-chevron-down'}" style="font-size:13px;color:var(--color-text-secondary)"></i>
+              </div>
+            </div>
+            ${isExpQ?`<table><thead><tr><th>Empleado</th><th>Casino</th><th>Días</th><th>Horas</th><th>Firmas</th><th>Estado</th><th>Acciones</th></tr></thead>
+              <tbody>${qg.horarios.map(h=>{
+                const cas=casinos.find(c=>c.id===parseInt(h.empleado.cId));
+                const st=h.estado||'Pendiente',sb={Pendiente:'bg-pend',Procesado:'bg-proc',Liquidado:'bg-liq'}[st]||'bg-pend';
+                const hT=h.rows.filter(r=>r.estado==='Horario'&&r.entrada&&r.salida&&!r.entradaErr&&!r.salidaErr).reduce((a,r)=>a+calcHrs(r.entrada,r.salida),0);
+                return`<tr class="row-normal">
+                  <td><span style="font-weight:500">${h.empleado.nombre}</span></td>
+                  <td style="font-size:12px">${cas?cas.nombre:'—'}</td>
+                  <td><span class="tag">${h.rows.length}</span></td>
+                  <td style="font-size:12px;color:var(--color-text-secondary)">${hT>0?hT.toFixed(1)+'h':'—'}</td>
+                  <td>${sigStatus(h)}</td>
+                  <td><span class="badge ${sb}">${st}</span></td>
+                  <td><div style="display:flex;gap:4px">
+                    <button class="btn btn-sm btn-b" data-edit="${h.id}"><i class="ti ti-edit"></i></button>
+                    <button class="btn btn-sm btn-o" data-liq="${h.id}"><i class="ti ti-calculator"></i></button>
+                    <button class="btn btn-sm btn-wa" data-wa="${h.id}"><i class="ti ti-brand-whatsapp"></i></button>
+                    <button class="btn btn-sm btn-r" data-dh="${h.id}"><i class="ti ti-trash"></i></button>
+                  </div></td>
+                </tr>`;}).join('')}
+              </tbody></table>`:''}
+          </div>`;}).join('')}
+      </div>`:''}
+    </div>`;
+  }).join('')}`;
+}
+
+function sigStatus(h){
+  const a=!!h.sigAdmin,e=!!h.sigEmpleado;
+  if(a&&e)return`<span style="font-size:11px;color:#085041"><i class="ti ti-writing-sign" style="color:#1D9E75;font-size:12px"></i> Completas</span>`;
+  if(a)return`<span style="font-size:11px;color:var(--gold-dark)"><i class="ti ti-writing-sign" style="color:var(--gold);font-size:12px"></i> Admin</span>`;
+  if(e)return`<span style="font-size:11px;color:#0C447C"><i class="ti ti-writing-sign" style="font-size:12px"></i> Empleado</span>`;
+  return`<span style="font-size:11px;color:var(--color-text-secondary)">Sin firmas</span>`;
+}
+
+/* ── LOGS ── */
+function rLogs(){
+  if(S.user?.rol!=='Administrador')return`<div class="ph"><div class="ph-left"><h1>Acceso denegado</h1></div></div>`;
+  const f=S.logFiltro;
+  let lista=S.data.logs;
+  if(f.tipo)lista=lista.filter(l=>l.tipo===f.tipo);
+  if(f.usuario)lista=lista.filter(l=>l.usuario.toLowerCase().includes(f.usuario.toLowerCase()));
+  if(f.texto)lista=lista.filter(l=>l.desc.toLowerCase().includes(f.texto.toLowerCase())||(l.detalle||'').toLowerCase().includes(f.texto.toLowerCase()));
+  const tiposUnicos=[...new Set(S.data.logs.map(l=>l.tipo))].sort();
+  return`<div class="ph"><div class="ph-left"><h1>Registro de logs</h1><p>Auditoría completa — ${S.data.logs.length} evento${S.data.logs.length!==1?'s':''}</p></div>
+    <button class="btn btn-sm btn-r" id="clear-logs-btn"><i class="ti ti-trash"></i>Limpiar</button></div>
+  <div class="pb">
+    <div class="card card-pad">
+      <div class="ch"><h3>Filtros</h3><span class="log-count">${lista.length} resultado${lista.length!==1?'s':''}</span></div>
+      <div class="log-filter">
+        <div class="ff"><label>Tipo</label><select id="lf-tipo"><option value="">Todos</option>${tiposUnicos.map(t=>`<option value="${t}" ${f.tipo===t?'selected':''}>${LOG_LABELS[t]||t}</option>`).join('')}</select></div>
+        <div class="ff"><label>Usuario</label><input type="text" id="lf-user" value="${f.usuario}" placeholder="Filtrar..."></div>
+        <div class="ff" style="flex:2"><label>Descripción</label><input type="text" id="lf-txt" value="${f.texto}" placeholder="Buscar..."></div>
+      </div>
+    </div>
+    <div class="card">
+      ${lista.length===0?`<div class="empty"><i class="ti ti-activity"></i><p>Sin eventos.</p></div>`
+        :`<table><thead><tr><th>#</th><th>Fecha y hora</th><th>Usuario</th><th>Tipo</th><th>Descripción</th><th>Detalle</th></tr></thead>
+          <tbody>${lista.map((l,i)=>`<tr class="row-normal">
+            <td style="color:var(--color-text-secondary);font-size:11px">${i+1}</td>
+            <td style="white-space:nowrap;font-size:12px">${fmtTs(l.ts)}</td>
+            <td><span style="font-weight:500;font-size:12px">${l.usuario}</span></td>
+            <td><span class="log-chip ${LOG_CSS[l.tipo]||'log-save'}">${LOG_LABELS[l.tipo]||l.tipo}</span></td>
+            <td style="font-size:12px">${l.desc}</td>
+            <td style="font-size:11px;color:var(--color-text-secondary)">${l.detalle||'—'}</td>
+          </tr>`).join('')}</tbody></table>`}
+    </div>
+  </div>`;
+}
+
+/* ── CÁLCULOS ── */
+function calcHrs(ent,sal){const[eh,em]=ent.split(':').map(Number),[sh,sm]=sal.split(':').map(Number);let m=(sh*60+sm)-(eh*60+em);if(m<0)m+=1440;return m/60}
+function getMin(t){const[h,m]=t.split(':').map(Number);return h*60+m}
+function clasificar(fecha,entrada,salida){
+  const esDomFest=new Date(fecha+'T12:00:00').getDay()===0||FEST.has(fecha);
+  let minEnt=getMin(entrada),minSal=getMin(salida);if(minSal<=minEnt)minSal+=1440;
+  let hOrd=0,hExtra=0,hNoctOrd=0,hNoctExtra=0,hDomFest=0,hDomFestExtra=0,hNoctDom=0;
+  for(let m=minEnt;m<minSal;m++){const minR=m%1440,hM=Math.floor(minR/60),esNoct=hM>=21||hM<6,esExtra=(m-minEnt)/60>=8;
+    if(esDomFest){if(esNoct)hNoctDom+=1/60;else if(esExtra)hDomFestExtra+=1/60;else hDomFest+=1/60}
+    else{if(esNoct){if(esExtra)hNoctExtra+=1/60;else hNoctOrd+=1/60}else{if(esExtra)hExtra+=1/60;else hOrd+=1/60}}}
+  return{hOrd,hExtra,hNoctOrd,hNoctExtra,hDomFest,hDomFestExtra,hNoctDom};
+}
+function liquidarUno(h){
+  const vH=SMMLV/240,rows=h.rows.filter(r=>r.estado==='Horario'&&r.fecha&&r.entrada&&r.salida&&!r.entradaErr&&!r.salidaErr);
+  let tot={hOrd:0,hExtra:0,hNoctOrd:0,hNoctExtra:0,hDomFest:0,hDomFestExtra:0,hNoctDom:0};
+  rows.forEach(r=>{const c=clasificar(r.fecha,r.entrada,r.salida);Object.keys(tot).forEach(k=>tot[k]+=c[k])});
+  const REC={hOrd:{r:0,l:'Hora ordinaria'},hExtra:{r:.25,l:'Extra diurna'},hNoctOrd:{r:.35,l:'Recargo nocturno'},hNoctExtra:{r:.75,l:'Extra nocturna'},hDomFest:{r:.75,l:'Dom/festivo'},hDomFestExtra:{r:1.0,l:'Extra dom/fest'},hNoctDom:{r:1.1,l:'Nocturna dom/fest'}};
+  let total=0;
+  const desglose=Object.keys(tot).map(k=>{const hh=tot[k],{r,l}=REC[k],val=hh*vH*(1+r);total+=val;return{k,l,h:hh,r,val}}).filter(x=>x.h>0.01);
+  const vacD=h.rows.filter(r=>r.estado==='Vacaciones').length,cmpD=h.rows.filter(r=>r.estado==='Compensatorio').length,incD=h.rows.filter(r=>r.estado==='Incapacidad').length;
+  const vacV=vacD*(SMMLV/30),cmpV=cmpD*(SMMLV/30),incV=incD*(SMMLV/30)*0.667;
+  total+=vacV+cmpV+incV;return{desglose,vacD,cmpD,incD,vacV,cmpV,incV,total,vH};
+}
+function fmt(n){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n)}
+
+/* ── MODALES ── */
+function rModal(){
+  const{empresas,casinos}=S.data;let c='';
+  if(S.modal==='new-empresa'){c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-building-store"></i></div><h3>Nueva empresa</h3></div><div class="modal-body"><div class="ff"><label>Nombre</label><input type="text" id="mn"></div></div><div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">Crear empresa</button></div>`;}
+  else if(S.modal==='add-casino'){c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-diamond" style="color:var(--gold)"></i></div><h3>Nuevo casino</h3></div><div class="modal-body"><div class="ff"><label>Nombre del casino</label><input type="text" id="mn"></div></div><div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">Crear casino</button></div>`;}
+  else if(S.modal==='new-usuario'){c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-user-plus"></i></div><h3>Nuevo usuario</h3></div>
+    <div class="modal-body"><div class="form-grid"><div class="ff"><label>Usuario</label><input type="text" id="mu"></div><div class="ff"><label>Contraseña</label><input type="password" id="mpw"></div>
+    <div class="ff"><label>Rol</label><select id="mrol"><option>RRHH</option><option>Supervisor</option><option>Casino</option><option>Administrador</option></select></div>
+    <div class="ff"><label>Empresa</label><select id="memp"><option value="">Sin empresa</option>${empresas.map(e=>`<option value="${e.id}">${e.nombre}</option>`).join('')}</select></div>
+    <div class="ff"><label>Casino</label><select id="mcas"><option value="">Sin casino</option></select></div></div></div>
+    <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">Crear usuario</button></div>`;}
+  else if(S.modal==='edit-horario'){
+    const h=S.editHorario,selE=h.empleado.eId?parseInt(h.empleado.eId):null,avC=selE?casinos.filter(c=>c.eId===selE):casinos,selQ=h.quincena;
+    c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-edit"></i></div>
+      <div><h3>Editar — ${h.empleado.nombre}</h3>${selQ?`<div style="font-size:12px;color:var(--color-text-secondary);margin-top:3px"><i class="ti ti-calendar-week" style="font-size:12px;color:var(--gold)"></i> ${quincenaLabel(selQ.year,selQ.month,selQ.q)}</div>`:''}</div></div>
+    <div class="modal-body">
+      <div class="changes-banner"><i class="ti ti-info-circle"></i><span>Todos los cambios quedan registrados en logs.</span></div>
+      <div class="form-grid" style="margin-bottom:1.25rem">
+        <div class="ff"><label>Nombre</label><input type="text" id="en" value="${h.empleado.nombre}"></div>
+        <div class="ff"><label>Documento</label><input type="text" id="ed" value="${h.empleado.documento||''}"></div>
+        <div class="ff"><label>Cargo</label><input type="text" id="ec" value="${h.empleado.cargo||''}"></div>
+        <div class="ff"><label>Empresa</label><select id="ee">${empresas.map(e=>`<option value="${e.id}" ${selE===e.id?'selected':''}>${e.nombre}</option>`).join('')}</select></div>
+        <div class="ff"><label>Casino</label><select id="eca">${avC.map(c=>`<option value="${c.id}" ${parseInt(h.empleado.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div>
+      </div>
+      <div style="border:0.5px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden">${renderRowsTable(h.rows,true,false)}</div>
+    </div>
+    <div class="mfoot"><button class="btn" id="mc">Cancelar</button>
+      <button class="btn btn-gold" id="ms-edit-liq"><i class="ti ti-calculator"></i>Guardar y liquidar</button>
+      <button class="btn btn-primary" id="ms">Guardar cambios</button></div>`;}
+  else if(S.modal==='liquidar-persona'){
+    const h=getH(S.liqId);
+    if(!h){c=`<div class="modal-head"><h3>Error</h3></div><div class="modal-body"><p>No encontrado.</p></div><div class="mfoot"><button class="btn" id="mc">Cerrar</button></div>`}
+    else{const liq=liquidarUno(h),cas=casinos.find(c=>c.id===parseInt(h.empleado.cId)),selQ=h.quincena;
+      c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-calculator" style="color:var(--gold)"></i></div>
+        <div><h3>Liquidación — ${h.empleado.nombre}</h3>${selQ?`<div style="font-size:12px;color:var(--color-text-secondary);margin-top:3px"><i class="ti ti-calendar-week" style="font-size:12px;color:var(--gold)"></i> ${quincenaLabel(selQ.year,selQ.month,selQ.q)}</div>`:''}</div></div>
+      <div class="modal-body">
+        <div class="info-box">CST Colombia · SMMLV 2024: ${fmt(SMMLV)} · Valor hora: ${fmt(Math.round(SMMLV/240))}</div>
+        <div class="form-grid" style="margin-bottom:1.25rem;font-size:13px">
+          <div><span style="color:var(--color-text-secondary)">Empleado:</span> <strong>${h.empleado.nombre}</strong></div>
+          <div><span style="color:var(--color-text-secondary)">Casino:</span> ${cas?cas.nombre:'—'}</div>
+          ${selQ?`<div><span style="color:var(--color-text-secondary)">Período:</span> ${quincenaPeriodo(selQ.year,selQ.month,selQ.q)}</div>`:''}
+        </div>
+        <div class="liq-section"><h4>Horas trabajadas</h4>
+          ${liq.desglose.map(d=>`<div class="liq-row"><span>${d.l} <span style="font-size:12px;color:var(--color-text-secondary)">${d.h.toFixed(2)}h × ${fmt(Math.round(liq.vH*(1+d.r)))}</span></span><span style="font-weight:500">${fmt(Math.round(d.val))}</span></div>`).join('')}
+          ${!liq.desglose.length?'<div style="font-size:13px;color:var(--color-text-secondary)">Sin horas registradas.</div>':''}
+        </div>
+        ${liq.vacD||liq.cmpD||liq.incD?`<div class="liq-section"><h4>Novedades</h4>
+          ${liq.vacD?`<div class="liq-row"><span>Vacaciones (${liq.vacD} días)</span><span style="font-weight:500">${fmt(Math.round(liq.vacV))}</span></div>`:''}
+          ${liq.cmpD?`<div class="liq-row"><span>Compensatorios (${liq.cmpD} días)</span><span style="font-weight:500">${fmt(Math.round(liq.cmpV))}</span></div>`:''}
+          ${liq.incD?`<div class="liq-row"><span>Incapacidad (${liq.incD} días·66.7%)</span><span style="font-weight:500">${fmt(Math.round(liq.incV))}</span></div>`:''}
+        </div>`:''}
+        <div class="liq-total"><span>Total a pagar</span><span>${fmt(Math.round(liq.total))}</span></div>
+      </div>
+      <div class="mfoot"><button class="btn" id="mc">Cerrar</button><button class="btn btn-primary" id="ms-liq">Marcar como liquidado</button></div>`;}
+  }else if(S.modal==='liq-quincena'){c=rLiqQuincena();}
+  else if(S.modal==='firma-link'){c=rModalFirmaLink(S.mdata.hId);}
+  return`<div class="modal-bg" id="mbg"><div class="modal">${c}</div></div>`;
+}
+
+function rLiqQuincena(){
+  const qKey=S.mdata.qKey,{horarios,casinos}=S.data;
+  const lista=horarios.filter(h=>h.quincenaKey===qKey);
+  if(!lista.length)return`<div class="modal-head"><h3>Liquidación quincena</h3></div><div class="modal-body"><div class="empty"><i class="ti ti-users"></i><p>No hay registros.</p></div></div><div class="mfoot"><button class="btn" id="mc">Cerrar</button></div>`;
+  const q=lista[0].quincena;let totalQ=0;
+  const bloques=lista.map(h=>{const liq=liquidarUno(h);totalQ+=liq.total;return{h,liq}});
+  const pend=lista.filter(h=>h.estado!=='Liquidado').length;
+  return`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-calendar-week" style="color:var(--gold)"></i></div>
+    <div><h3>Liquidación quincena</h3>${q?`<div style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">${quincenaLabel(q.year,q.month,q.q)} · ${quincenaPeriodo(q.year,q.month,q.q)}</div>`:''}</div></div>
+  <div class="modal-body">
+    <div class="info-box">${lista.length} empleado${lista.length!==1?'s':''} · ${pend} pendiente${pend!==1?'s':''} · SMMLV: ${fmt(SMMLV)}</div>
+    ${bloques.map(({h,liq})=>{const st=h.estado||'Pendiente',sb={Pendiente:'bg-pend',Procesado:'bg-proc',Liquidado:'bg-liq'}[st]||'bg-pend';const cas=casinos.find(c=>c.id===parseInt(h.empleado.cId));
+      return`<div class="liq-persona-block">
+        <div class="lpb-header"><div style="display:flex;align-items:center;gap:8px"><i class="ti ti-user" style="color:var(--color-text-secondary);font-size:14px"></i>
+          <span>${h.empleado.nombre}</span>${cas?`<span style="font-size:12px;color:var(--color-text-secondary)">· ${cas.nombre}</span>`:''}
+          <span class="badge ${sb}">${st}</span></div>
+          <span style="font-weight:500;color:var(--gold-dark)">${fmt(Math.round(liq.total))}</span>
+        </div>
+        <div class="lpb-body">
+          ${liq.desglose.map(d=>`<div class="lpb-row"><span>${d.l} (${d.h.toFixed(2)}h)</span><span>${fmt(Math.round(d.val))}</span></div>`).join('')}
+          ${liq.vacD?`<div class="lpb-row"><span>Vacaciones (${liq.vacD} días)</span><span>${fmt(Math.round(liq.vacV))}</span></div>`:''}
+          ${liq.cmpD?`<div class="lpb-row"><span>Compensatorios (${liq.cmpD} días)</span><span>${fmt(Math.round(liq.cmpV))}</span></div>`:''}
+          ${liq.incD?`<div class="lpb-row"><span>Incapacidad (${liq.incD} días)</span><span>${fmt(Math.round(liq.incV))}</span></div>`:''}
+          <div class="liq-sub-total"><span>Subtotal</span><span>${fmt(Math.round(liq.total))}</span></div>
+        </div>
+      </div>`;}).join('')}
+    <div class="liq-casino-total"><span><i class="ti ti-calculator"></i> Total quincena — ${q?quincenaLabel(q.year,q.month,q.q):'?'}</span><span>${fmt(Math.round(totalQ))}</span></div>
+  </div>
+  <div class="mfoot"><button class="btn" id="mc">Cerrar</button><button class="btn btn-primary" id="ms-liq-q">Liquidar todos los pendientes</button></div>`;
+}
+
+function genFirmaLink(hId){return`${window.location.href.split('#')[0]}#firmar/${hId}`}
+function rModalFirmaLink(hId){
+  const h=getH(hId);if(!h)return'';const link=genFirmaLink(hId);
+  return`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-link" style="color:var(--gold)"></i></div><h3>Link de firma — ${h.empleado.nombre}</h3></div>
+  <div class="modal-body">
+    <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem">Comparte este link para que el empleado firme desde su dispositivo.</p>
+    <div style="display:flex;align-items:center;gap:8px;padding:.875rem 1rem;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:8px;margin-bottom:1rem">
+      <i class="ti ti-link" style="font-size:16px;color:var(--gold);flex-shrink:0"></i>
+      <span style="font-size:12px;word-break:break-all;flex:1">${link}</span>
+      <button class="btn btn-sm" id="copy-link-btn"><i class="ti ti-copy"></i>Copiar</button>
+    </div>
+    <button class="btn btn-wa" style="width:100%;justify-content:center;padding:10px;margin-bottom:.75rem" data-wa-modal="${hId}"><i class="ti ti-brand-whatsapp"></i>Enviar por WhatsApp</button>
+    <div class="info-box">La firma del empleado queda guardada y registrada en los logs del sistema.</div>
+  </div>
+  <div class="mfoot"><button class="btn" id="mc">Cerrar</button></div>`;
+}
+
+/* ── PORTAL ── */
+function rPortal(hId){
+  const h=getH(hId);
+  if(!h)return`<div class="portal-wrap"><div class="portal-card"><div style="text-align:center;padding:2rem"><i class="ti ti-alert-circle" style="font-size:48px;color:var(--color-text-danger);display:block;margin-bottom:1rem"></i><h3 style="font-size:18px;margin-bottom:.5rem">No encontrado</h3><p style="font-size:13px;color:var(--color-text-secondary)">El link es inválido.</p></div></div></div>`;
+  if(h.sigEmpleado)return`<div class="portal-wrap"><div class="portal-card"><div class="portal-head"><div class="logo-mark"><i class="ti ti-diamond"></i></div><div><strong style="font-size:14px">Sistema de Horarios</strong></div></div><div class="portal-done"><i class="ti ti-circle-check"></i><h3>Ya firmado</h3><p>El horario de <strong>${h.empleado.nombre}</strong> ya tiene tu firma.</p></div></div></div>`;
+  const{casinos,empresas}=S.data,cas=casinos.find(c=>c.id===parseInt(h.empleado.cId)),emp=cas?empresas.find(e=>e.id===cas.eId):null,selQ=h.quincena;
+  return`<div class="portal-wrap"><div class="portal-card">
+    <div class="portal-head"><div class="logo-mark"><i class="ti ti-diamond"></i></div>
+    <div><strong style="font-size:14px">Sistema de Horarios — Autorización</strong>
+    ${selQ?`<div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px"><i class="ti ti-calendar-week" style="color:var(--gold);font-size:12px"></i> ${quincenaLabel(selQ.year,selQ.month,selQ.q)}</div>`:''}</div></div>
+    <div class="portal-info">
+      <div><span>Empleado</span><span>${h.empleado.nombre}</span></div>
+      <div><span>Documento</span><span>${h.empleado.documento||'—'}</span></div>
+      <div><span>Cargo</span><span>${h.empleado.cargo||'—'}</span></div>
+      <div><span>Casino</span><span>${cas?cas.nombre:'—'}</span></div>
+      ${selQ?`<div><span>Período</span><span>${quincenaPeriodo(selQ.year,selQ.month,selQ.q)}</span></div>`:''}
+    </div>
+    <div class="portal-table-wrap">
+      <table><thead><tr><th>Fecha</th><th>Día</th><th>Estado</th><th>Entrada</th><th>Salida</th></tr></thead>
+      <tbody>${h.rows.map(r=>{const dn=r.fecha?DAYS[new Date(r.fecha+'T12:00:00').getDay()]:'—',fest=isDomFest(r.fecha);
+        return`<tr class="${fest?'row-fest':'row-normal'}"><td>${r.fecha||'—'}</td><td><span class="day-label">${dn}</span>${fest?`<span class="fest-pill">Fest.</span>`:''}</td>
+        <td>${r.estado}</td><td>${r.estado==='Horario'?r.entrada||'—':'—'}</td><td>${r.estado==='Horario'?r.salida||'—':'—'}</td></tr>`;}).join('')}
+      </tbody></table>
+    </div>
+    <div class="sig-block" style="margin-bottom:1.25rem">
+      <div class="sig-label"><i class="ti ti-writing-sign"></i>Tu firma — ${h.empleado.nombre}</div>
+      <div class="sig-canvas-wrap" id="sig-wrap-portal" style="height:130px">
+        <canvas id="sig-canvas-portal" style="width:100%;height:130px"></canvas>
+        <div class="sig-hint" id="sig-hint-portal"><i class="ti ti-pencil"></i><span>Firmar aquí</span></div>
+      </div>
+      <div class="sig-actions">
+        <div class="sig-status" id="portal-sig-status"><i class="ti ti-circle-dashed"></i>Sin firma</div>
+        <button class="btn-clear-sig" id="portal-clear-sig"><i class="ti ti-trash" style="font-size:11px"></i>Limpiar</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="portal-submit-btn" style="width:100%;padding:11px;font-size:14px;justify-content:center"><i class="ti ti-check"></i>Confirmar y enviar firma</button>
+  </div></div>`;
+}
+function bPortal(hId){
+  const canvas=document.getElementById('sig-canvas-portal');if(!canvas)return;
+  const wrap=document.getElementById('sig-wrap-portal'),hint=document.getElementById('sig-hint-portal'),statusEl=document.getElementById('portal-sig-status');
+  canvas.width=canvas.offsetWidth||480;canvas.height=130;
+  const ctx=canvas.getContext('2d');ctx.strokeStyle='#0D1B2A';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+  let drawing=false,lx=0,ly=0,hasSig=false;
+  function gp(e){const r=canvas.getBoundingClientRect();if(e.touches)return{x:(e.touches[0].clientX-r.left)*(canvas.width/r.width),y:(e.touches[0].clientY-r.top)*(canvas.height/r.height)};return{x:(e.clientX-r.left)*(canvas.width/r.width),y:(e.clientY-r.top)*(canvas.height/r.height)}}
+  function start(e){e.preventDefault();drawing=true;const p=gp(e);lx=p.x;ly=p.y;if(hint)hint.style.opacity='0'}
+  function move(e){e.preventDefault();if(!drawing)return;const p=gp(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;hasSig=true}
+  function end(e){e.preventDefault();drawing=false;if(hasSig){wrap.classList.add('signed');if(statusEl){statusEl.className='sig-status ok';statusEl.innerHTML='<i class="ti ti-circle-check"></i>Firma lista'}}}
+  canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',end);canvas.addEventListener('mouseleave',end);
+  canvas.addEventListener('touchstart',start,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',end);
+  document.getElementById('portal-clear-sig')?.addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;wrap.classList.remove('signed');if(hint)hint.style.opacity='1';if(statusEl){statusEl.className='sig-status';statusEl.innerHTML='<i class="ti ti-circle-dashed"></i>Sin firma'}});
+  document.getElementById('portal-submit-btn')?.addEventListener('click',()=>{
+    if(!hasSig){alert('Por favor firma antes de confirmar.');return}
+    const sigData=canvas.toDataURL();const h=getH(hId);
+    if(h){h.sigEmpleado=sigData;addLog('firma-emp',`Firma recibida — horario #${hId}`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`,  'empleado-portal')}
+    window.location.hash='';
+    document.getElementById('app').innerHTML=`<div class="portal-wrap"><div class="portal-card">
+      <div class="portal-head"><div class="logo-mark"><i class="ti ti-diamond"></i></div><div><strong style="font-size:14px">Sistema de Horarios</strong></div></div>
+      <div class="portal-done"><i class="ti ti-circle-check"></i><h3>¡Firma registrada!</h3><p>Tu firma fue guardada exitosamente. Puedes cerrar esta ventana.</p></div>
+    </div></div>`;
+  });
+}
+function enviarWhatsApp(hId){
+  const h=getH(hId);if(!h)return;
+  const link=genFirmaLink(hId),cas=getCasNombre(h.empleado.cId);
+  const qInfo=h.quincena?`\n📅 Período: ${quincenaPeriodo(h.quincena.year,h.quincena.month,h.quincena.q)}`:'';
+  const msg=encodeURIComponent(`Hola ${h.empleado.nombre}, te enviamos tu horario de ${cas}.${qInfo}\n\n🔗 Link de firma:\n${link}\n\n_Sistema de Horarios_`);
+  addLog('link',`Link de firma enviado — horario #${hId}`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
+  window.open(`https://wa.me/?text=${msg}`,'_blank');
+}
+
+/* ── CANVAS ADMIN ── */
+function initAdminCanvas(){
+  const canvas=document.getElementById('sig-canvas-admin');if(!canvas)return;
+  const ctx=canvas.getContext('2d'),wrap=document.getElementById('sig-wrap-admin'),hint=document.getElementById('sig-hint-admin');
+  if(SIG.admin){const img=new Image();img.onload=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0)};img.src=SIG.admin;wrap?.classList.add('signed');if(hint)hint.style.opacity='0'}
+  ctx.strokeStyle='#0D1B2A';ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';
+  let drawing=false,lx=0,ly=0;
+  function gp(e){const r=canvas.getBoundingClientRect();if(e.touches)return{x:e.touches[0].clientX-r.left,y:e.touches[0].clientY-r.top};return{x:e.clientX-r.left,y:e.clientY-r.top}}
+  function start(e){e.preventDefault();drawing=true;const p=gp(e);lx=p.x;ly=p.y;if(hint)hint.style.opacity='0'}
+  function move(e){e.preventDefault();if(!drawing)return;const p=gp(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y}
+  function end(e){e.preventDefault();if(!drawing)return;drawing=false;SIG.admin=canvas.toDataURL();wrap?.classList.add('signed');addLog('firma-admin','Firma del administrador registrada',`Casino: ${getCasNombre(S.emp.cId)}`);
+    const act=document.getElementById('sig-act-admin');if(act){act.innerHTML=`<div class="sig-status ok"><i class="ti ti-circle-check"></i>Firma registrada</div><button class="btn-clear-sig" data-clear-sig="admin"><i class="ti ti-trash" style="font-size:11px"></i>Limpiar</button>`;
+    act.querySelector('[data-clear-sig]').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);SIG.admin=null;wrap?.classList.remove('signed');if(hint)hint.style.opacity='1';act.innerHTML=`<div class="sig-status"><i class="ti ti-circle-dashed"></i>Sin firma</div>`})}}
+  canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',end);canvas.addEventListener('mouseleave',end);
+  canvas.addEventListener('touchstart',start,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',end);
+}
+
+/* ── GUARDAR / EDITAR ── */
+function commitEdit(){
+  const h=S.editHorario,orig=getH(h.id);let ok=true;
+  h.rows.forEach((r,i)=>{if(r.estado==='Horario'){h.rows[i].entradaErr=!valTime(r.entrada)||!r.entrada;h.rows[i].salidaErr=!valTime(r.salida)||!r.salida;if(h.rows[i].entradaErr||h.rows[i].salidaErr)ok=false}});
+  if(!ok){render();return false}
+  if(orig){
+    const emp=h.empleado,oemp=orig.empleado;
+    if(emp.nombre!==oemp.nombre)addLog('edit',`Horario #${h.id}: nombre cambiado`,`"${oemp.nombre}" → "${emp.nombre}"`);
+    if(emp.cargo!==oemp.cargo)addLog('edit',`Horario #${h.id}: cargo cambiado`,`"${oemp.cargo||'—'}" → "${emp.cargo||'—'}"`);
+    if(emp.cId!==oemp.cId)addLog('edit',`Horario #${h.id}: casino cambiado`,`"${getCasNombre(oemp.cId)}" → "${getCasNombre(emp.cId)}"`);
+    const rowsDiff=h.rows.length-orig.rows.length;
+    if(rowsDiff>0)addLog('row-add',`Horario #${h.id}: ${rowsDiff} día${rowsDiff!==1?'s':''} agregado${rowsDiff!==1?'s':''}`,`Empleado: ${emp.nombre}`);
+    if(rowsDiff<0)addLog('row-del',`Horario #${h.id}: ${Math.abs(rowsDiff)} día${Math.abs(rowsDiff)!==1?'s':''} eliminado${Math.abs(rowsDiff)!==1?'s':''}`,`Empleado: ${emp.nombre}`);
+    orig.rows.forEach((or,i)=>{const nr=h.rows[i];if(!nr)return;if(nr.fecha!==or.fecha||nr.entrada!==or.entrada||nr.salida!==or.salida||nr.estado!==or.estado)addLog('row-edit',`Horario #${h.id}: fila ${i+1} modificada`,`${nr.fecha||'—'} · ${nr.estado}${nr.estado==='Horario'?` ${nr.entrada||'?'}–${nr.salida||'?'}`:''}`)});
+    if(JSON.stringify(h.rows)!==JSON.stringify(orig.rows)||JSON.stringify(h.empleado)!==JSON.stringify(orig.empleado))addLog('edit',`Horario #${h.id} guardado con cambios`,`Empleado: ${emp.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
+  }
+  const idx=S.data.horarios.findIndex(x=>x.id===h.id);
+  if(idx>-1){S.data.horarios[idx]=JSON.parse(JSON.stringify(h));S.data.horarios[idx].estado='Procesado'}
+  S.editHorario=null;return true;
+}
+function valTime(v){if(!v)return true;const m=v.match(/^(\d{1,2}):(\d{2})$/);if(!m)return false;return+m[1]<=23&&+m[2]<=59}
+function saveSchedule(){
+  let ok=true;
+  S.rows.forEach((r,i)=>{if(r.estado==='Horario'){S.rows[i].entradaErr=!valTime(r.entrada)||!r.entrada;S.rows[i].salidaErr=!valTime(r.salida)||!r.salida;if(S.rows[i].entradaErr||S.rows[i].salidaErr)ok=false}});
+  if(!ok){render();return}
+  const e=S.emp;if(!e.nombre||!e.cId){alert('Completa nombre y casino del empleado');return}
+  const q=S.selQ;
+  const newH={id:gid(),empleado:{...e},rows:JSON.parse(JSON.stringify(S.rows)),estado:'Pendiente',fechaGuardado:new Date().toISOString(),sigAdmin:SIG.admin||null,sigEmpleado:null,quincena:{...q},quincenaKey:quincenaKey(q.year,q.month,q.q)};
+  S.data.horarios.push(newH);
+  addLog('save',`Horario creado — empleado: ${e.nombre}`,`Casino: ${getCasNombre(e.cId)} · ${quincenaLabel(q.year,q.month,q.q)} · ${S.rows.length} días${SIG.admin?' · Con firma admin':''}`);
+  S.rows=[];S.emp={nombre:'',documento:'',cargo:'',cId:S.user.cId||'',eId:S.user.eId||''};SIG.admin=null;
+  S.modal='firma-link';S.mdata={hId:newH.id};render();
+}
+
+/* ── BIND ── */
+function bApp(){
+  window.onhashchange=()=>render();
+  document.getElementById('lout')?.addEventListener('click',()=>{addLog('logout','Cierre de sesión');S.view='login';S.user=null;S.rows=[];S.emp={nombre:'',documento:'',cargo:'',cId:'',eId:''};SIG.admin=null;render()});
+  document.querySelectorAll('.nav-item').forEach(el=>el.addEventListener('click',()=>{S.menu=el.dataset.menu;render()}));
+  document.getElementById('dash-logs-btn')?.addEventListener('click',()=>{S.menu='logs';render()});
+  document.querySelectorAll('.tab').forEach(el=>el.addEventListener('click',()=>{S.rrhhTab=el.dataset.tab;render()}));
+  document.getElementById('ne-btn')?.addEventListener('click',()=>{S.modal='new-empresa';render()});
+  document.getElementById('cc-btn')?.addEventListener('click',()=>{S.selEmp=null;render()});
+  document.querySelectorAll('[data-sc]').forEach(el=>el.addEventListener('click',()=>{S.selEmp=parseInt(el.dataset.sc);render()}));
+  document.querySelectorAll('[data-ac]').forEach(el=>el.addEventListener('click',()=>{S.modal='add-casino';S.mdata={eId:parseInt(el.dataset.ac)};render()}));
+  document.querySelectorAll('[data-de]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.de),e=S.data.empresas.find(x=>x.id===id);addLog('delete',`Empresa eliminada: ${e?.nombre||id}`);S.data.empresas=S.data.empresas.filter(x=>x.id!==id);S.data.casinos=S.data.casinos.filter(c=>c.eId!==id);if(S.selEmp===id)S.selEmp=null;render()}));
+  document.querySelectorAll('[data-dc]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.dc),c=S.data.casinos.find(x=>x.id===id);addLog('delete',`Casino eliminado: ${c?.nombre||id}`);S.data.casinos=S.data.casinos.filter(x=>x.id!==id);render()}));
+  document.getElementById('nu-btn')?.addEventListener('click',()=>{S.modal='new-usuario';render()});
+  document.querySelectorAll('[data-du]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.du);if(id===S.user.id)return;const u=S.data.usuarios.find(x=>x.id===id);addLog('delete',`Usuario eliminado: ${u?.usuario||id}`);S.data.usuarios=S.data.usuarios.filter(x=>x.id!==id);render()}));
+  document.getElementById('q-sel-form')?.addEventListener('change',e=>{const key=e.target.value,opt=genQOpts().find(o=>o.key===key);if(opt)S.selQ={year:opt.year,month:opt.month,q:opt.q};render()});
+  document.getElementById('add-row')?.addEventListener('click',()=>{S.rows.push({fecha:'',estado:'Horario',entrada:'',salida:'',entradaErr:false,salidaErr:false});render()});
+  document.getElementById('save-sch')?.addEventListener('click',saveSchedule);
+  document.getElementById('edit-add-row')?.addEventListener('click',()=>{S.editHorario.rows.push({fecha:'',estado:'Horario',entrada:'',salida:'',entradaErr:false,salidaErr:false});addLog('row-add',`Horario #${S.editHorario.id}: nueva fila`,`Empleado: ${S.editHorario.empleado.nombre}`);render()});
+  document.querySelectorAll('[data-dr]').forEach(el=>el.addEventListener('click',()=>{S.rows.splice(parseInt(el.dataset.dr),1);render()}));
+  document.querySelectorAll('[data-edr]').forEach(el=>el.addEventListener('click',()=>{const i=parseInt(el.dataset.edr),r=S.editHorario.rows[i];addLog('row-del',`Horario #${S.editHorario.id}: fila ${i+1} eliminada`,`${r?.fecha||'—'} · ${r?.estado||'?'}`);S.editHorario.rows.splice(i,1);render()}));
+  bindRowInputs();
+  document.getElementById('en')?.addEventListener('input',e=>{if(S.modal==='edit-horario'&&S.editHorario)S.editHorario.empleado.nombre=e.target.value;else S.emp.nombre=e.target.value});
+  document.getElementById('ed')?.addEventListener('input',e=>{if(S.modal==='edit-horario'&&S.editHorario)S.editHorario.empleado.documento=e.target.value;else S.emp.documento=e.target.value});
+  document.getElementById('ec')?.addEventListener('input',e=>{if(S.modal==='edit-horario'&&S.editHorario)S.editHorario.empleado.cargo=e.target.value;else S.emp.cargo=e.target.value});
+  document.getElementById('ee')?.addEventListener('change',e=>{if(S.modal==='edit-horario'&&S.editHorario){S.editHorario.empleado.eId=e.target.value;S.editHorario.empleado.cId='';render()}else{S.emp.eId=e.target.value;S.emp.cId='';render()}});
+  document.getElementById('eca')?.addEventListener('change',e=>{if(S.modal==='edit-horario'&&S.editHorario)S.editHorario.empleado.cId=e.target.value;else S.emp.cId=e.target.value});
+  document.getElementById('f-emp')?.addEventListener('change',e=>{S.rrhhFiltro.eId=e.target.value;S.rrhhFiltro.cId='';render()});
+  document.getElementById('f-cas')?.addEventListener('change',e=>{S.rrhhFiltro.cId=e.target.value;render()});
+  document.getElementById('f-q')?.addEventListener('change',e=>{S.rrhhFiltro.qKey=e.target.value;render()});
+  document.getElementById('f-txt')?.addEventListener('input',e=>{S.rrhhFiltro.texto=e.target.value;render()});
+  document.getElementById('h-emp')?.addEventListener('change',e=>{S.histFiltro.eId=e.target.value;S.histFiltro.cId='';render()});
+  document.getElementById('h-cas')?.addEventListener('change',e=>{S.histFiltro.cId=e.target.value;render()});
+  document.querySelectorAll('[data-expand-mes]').forEach(el=>el.addEventListener('click',()=>{const k=el.dataset.expandMes;S.histFiltro.expandedMes=S.histFiltro.expandedMes===k?null:k;render()}));
+  document.querySelectorAll('[data-expand-q]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();const k=el.dataset.expandQ;S.histFiltro.expandedQ=S.histFiltro.expandedQ===k?null:k;render()}));
+  document.querySelectorAll('[data-liq-q]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();S.modal='liq-quincena';S.mdata={qKey:el.dataset.liqQ};render()}));
+  document.querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('click',()=>{const h=getH(parseInt(el.dataset.edit));if(!h)return;S.editHorario=JSON.parse(JSON.stringify(h));S.modal='edit-horario';addLog('edit',`Horario #${h.id} abierto para edición`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);render()}));
+  document.querySelectorAll('[data-liq]').forEach(el=>el.addEventListener('click',()=>{S.liqId=parseInt(el.dataset.liq);S.modal='liquidar-persona';render()}));
+  document.querySelectorAll('[data-dh]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.dh),h=getH(id);addLog('delete',`Horario #${id} eliminado`,`Empleado: ${h?.empleado?.nombre||'?'}${h?.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);S.data.horarios=S.data.horarios.filter(x=>x.id!==id);render()}));
+  document.querySelectorAll('[data-wa]').forEach(el=>el.addEventListener('click',()=>{S.modal='firma-link';S.mdata={hId:parseInt(el.dataset.wa)};render()}));
+  document.getElementById('lf-tipo')?.addEventListener('change',e=>{S.logFiltro.tipo=e.target.value;render()});
+  document.getElementById('lf-user')?.addEventListener('input',e=>{S.logFiltro.usuario=e.target.value;render()});
+  document.getElementById('lf-txt')?.addEventListener('input',e=>{S.logFiltro.texto=e.target.value;render()});
+  document.getElementById('clear-logs-btn')?.addEventListener('click',()=>{if(confirm('¿Limpiar todos los logs?')){S.data.logs=[];render()}});
+  document.getElementById('mbg')?.addEventListener('click',e=>{if(e.target.id==='mbg'){S.modal=null;render()}});
+  document.getElementById('mc')?.addEventListener('click',()=>{S.modal=null;render()});
+  document.getElementById('memp')?.addEventListener('change',()=>{const eId=document.getElementById('memp')?.value,sel=document.getElementById('mcas');if(!sel)return;const avC=eId?S.data.casinos.filter(c=>c.eId===parseInt(eId)):[];sel.innerHTML='<option value="">Sin casino</option>'+avC.map(c=>`<option value="${c.id}">${c.nombre}</option>`).join('')});
+  document.getElementById('ms')?.addEventListener('click',handleSave);
+  document.getElementById('ms-edit-liq')?.addEventListener('click',()=>{const idP=S.editHorario?.id;if(!idP)return;if(!commitEdit())return;S.liqId=idP;S.modal='liquidar-persona';render()});
+  document.getElementById('ms-liq')?.addEventListener('click',()=>{const h=getH(S.liqId);if(h){h.estado='Liquidado';addLog('liquidado',`Horario #${h.id} liquidado`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`)}S.modal=null;render()});
+  document.getElementById('ms-liq-q')?.addEventListener('click',()=>{const qKey=S.mdata.qKey;S.data.horarios.forEach(h=>{if(h.quincenaKey===qKey&&h.estado!=='Liquidado'){h.estado='Liquidado';addLog('liquidado',`Horario #${h.id} liquidado (quincena)`,`Empleado: ${h.empleado.nombre}`)}});S.modal=null;render()});
+  document.getElementById('copy-link-btn')?.addEventListener('click',()=>{const hId=S.mdata?.hId;if(!hId)return;navigator.clipboard?.writeText(genFirmaLink(hId)).then(()=>{const btn=document.getElementById('copy-link-btn');if(btn){btn.innerHTML='<i class="ti ti-check"></i>Copiado';setTimeout(()=>{btn.innerHTML='<i class="ti ti-copy"></i>Copiar'},2000)}})});
+  document.querySelectorAll('[data-wa-modal]').forEach(el=>el.addEventListener('click',()=>enviarWhatsApp(parseInt(el.dataset.waModal))));
+  if(S.menu==='horarios')setTimeout(()=>initAdminCanvas(),60);
+}
+function bindRowInputs(){
+  document.querySelectorAll('[data-r][data-f]').forEach(el=>{
+    const isEdit=el.dataset.edit==='1',arr=()=>isEdit&&S.editHorario?S.editHorario.rows:S.rows;
+    el.addEventListener('change',()=>{
+      const i=parseInt(el.dataset.r),f=el.dataset.f,rows=arr();if(!rows[i])return;
+      const prev={...rows[i]};
+      if(f==='estado'){rows[i][f]=el.value;if(isEdit)addLog('estado',`Horario #${S.editHorario?.id}: estado fila ${i+1}`,`${prev.estado} → ${el.value}`);render();return}
+      if(f==='fecha'){rows[i][f]=el.value;if(isEdit&&el.value)addLog('row-edit',`Horario #${S.editHorario?.id}: fecha fila ${i+1}`,`${prev.fecha||'—'} → ${el.value}`);render();return}
+      const v=el.value.replace(/[^0-9:]/g,'');rows[i][f]=v;rows[i][f+'Err']=!valTime(v);
+      if(isEdit&&v&&!rows[i][f+'Err'])addLog('row-edit',`Horario #${S.editHorario?.id}: hora ${f} fila ${i+1}`,`${prev[f]||'—'} → ${v}`);
+      render();
+    });
+    if(el.classList.contains('ti-inp')){el.addEventListener('input',()=>{let v=el.value.replace(/[^0-9]/g,'');if(v.length>4)v=v.slice(0,4);if(v.length>2)v=v.slice(0,2)+':'+v.slice(2);el.value=v})}
+  });
+}
+function handleSave(){
+  if(S.modal==='new-empresa'){const n=document.getElementById('mn').value.trim();if(!n)return;S.data.empresas.push({id:gid(),nombre:n});addLog('create',`Empresa creada: ${n}`)}
+  else if(S.modal==='add-casino'){const n=document.getElementById('mn').value.trim();if(!n)return;const emp=S.data.empresas.find(e=>e.id===S.mdata.eId);S.data.casinos.push({id:gid(),eId:S.mdata.eId,nombre:n});addLog('create',`Casino creado: ${n}`,`Empresa: ${emp?.nombre||'?'}`)}
+  else if(S.modal==='new-usuario'){
+    const u=document.getElementById('mu').value.trim(),pw=document.getElementById('mpw').value.trim(),rol=document.getElementById('mrol').value;
+    const eId=document.getElementById('memp').value?parseInt(document.getElementById('memp').value):null;
+    const cId=document.getElementById('mcas').value?parseInt(document.getElementById('mcas').value):null;
+    if(!u||!pw)return;S.data.usuarios.push({id:gid(),usuario:u,password:pw,rol,eId,cId});addLog('create',`Usuario creado: ${u}`,`Rol: ${rol}`);
+  }else if(S.modal==='edit-horario'){if(!commitEdit())return}
+  S.modal=null;S.mdata={};render();
+}
+window.addEventListener('hashchange',()=>render());
+render();
+</script>
+</body>
+</html>
