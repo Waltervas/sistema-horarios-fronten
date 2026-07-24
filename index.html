@@ -6,10 +6,18 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#B8952A;--gold-dark:#7A6018;--navy:#0D1B2A;--navy-mid:#1A2E44;--card-bg:var(--color-background-primary);--page-bg:var(--color-background-tertiary)}
+:root{
+  --gold:#C9A227;--gold-dark:#8A6D1B;--navy:#0F1B2E;--navy-mid:#1D3854;
+  --color-background-primary:#FFFFFF;--color-background-secondary:#F3F4F7;--color-background-tertiary:#F7F8FA;
+  --color-border-secondary:#DDE1E6;--color-border-tertiary:#E9EBEF;
+  --color-text-primary:#10141C;--color-text-secondary:#66707F;
+  --color-background-danger:#FDF0F0;--color-border-danger:#F2B8B5;--color-text-danger:#B3261E;
+  --card-bg:var(--color-background-primary);--page-bg:var(--color-background-tertiary);
+  --shadow-sm:0 1px 2px rgba(16,20,28,.05);--shadow-md:0 4px 16px rgba(16,20,28,.07)
+}
 body{font-family:var(--font-sans,'Segoe UI',sans-serif);background:var(--page-bg);color:var(--color-text-primary);min-height:100vh}
 .lw{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
-.lc{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:2.5rem;width:100%;max-width:400px}
+.lc{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:2.5rem;width:100%;max-width:400px;box-shadow:var(--shadow-md)}
 .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:0.5px solid var(--color-border-tertiary)}
 .logo-mark{width:42px;height:42px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo-mark i{color:var(--gold);font-size:22px}
@@ -53,18 +61,21 @@ body{font-family:var(--font-sans,'Segoe UI',sans-serif);background:var(--page-bg
 .ph-left h1{font-size:17px;font-weight:500}
 .ph-left p{font-size:12px;color:var(--color-text-secondary);margin-top:1px}
 .pb{padding:1.5rem 2rem}
-.card{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1.25rem;overflow:hidden}
+.card{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1.25rem;overflow:hidden;box-shadow:var(--shadow-sm)}
 .card-pad{padding:1.25rem}
 .card-accent{border-top:2px solid var(--gold)}
 .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem}
 .ch h3{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary)}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem}
-.stat-card{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.25rem;border-top:2px solid var(--gold)}
+.stat-card{background:var(--card-bg);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1rem 1.25rem;border-top:2px solid var(--gold);box-shadow:var(--shadow-sm);transition:box-shadow .15s,transform .15s}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .stat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;background:rgba(184,149,42,.12);color:var(--gold)}
 .stat-lbl{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
 .stat-val{font-size:24px;font-weight:500;line-height:1}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--card-bg);color:var(--color-text-primary);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--card-bg);color:var(--color-text-primary);font-weight:500;transition:background .12s,box-shadow .12s,transform .08s}
 .btn:hover{background:var(--color-background-secondary)}
+.btn:active{transform:translateY(1px)}
+.btn-primary:hover{box-shadow:0 2px 10px rgba(15,27,46,.25)}
 .btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn-primary:hover{background:var(--navy-mid)}
 .btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}.btn-gold:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
 .btn-r{background:none;color:var(--color-text-danger);border-color:var(--color-border-danger)}.btn-r:hover{background:var(--color-background-danger)}
@@ -92,7 +103,7 @@ tr.row-fest .dt-inp,tr.row-fest .ti-inp,tr.row-fest .est-sel{background:#F5E6C8 
 .ff input,.ff select{padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:8px;background:var(--card-bg);color:var(--color-text-primary);font-size:13px}
 .ff input:focus,.ff select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,149,42,.12)}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
-.modal{background:var(--card-bg);border:0.5px solid var(--color-border-secondary);border-radius:12px;width:100%;max-width:960px;max-height:92vh;overflow-y:auto}
+.modal{background:var(--card-bg);border:0.5px solid var(--color-border-secondary);border-radius:14px;width:100%;max-width:960px;max-height:92vh;overflow-y:auto;box-shadow:0 12px 40px rgba(16,20,28,.18)}
 .modal-head{padding:1.25rem 1.5rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:10px}
 .modal-head-icon{width:32px;height:32px;background:rgba(13,27,42,.07);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .modal-head-icon i{font-size:17px;color:var(--navy)}
@@ -197,7 +208,7 @@ hr.div{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.
 <body>
 <div id="app"></div>
 <script>
-  const API = 'https://sistema-horarios-backend-production.up.railway.app/api';
+  const API = 'http://localhost:3000/api';
 let TOKEN = localStorage.getItem('token') || '';
 
 async function api(method, path, body) {
@@ -251,9 +262,31 @@ let S={
   logFiltro:{tipo:'',usuario:'',texto:''}
 };
 function gid(){return++S.nid}
+async function cargarPortal(hId){
+  try{
+    const res=await fetch(API+'/horarios/'+hId);
+    if(!res.ok)return;
+    const h=await res.json();
+    const mapped={
+      ...h,
+      sigAdmin:h.sig_admin,sigEmpleado:h.sig_empleado,quincenaKey:h.quincena_key,
+      empleado:{nombre:h.empleado_nombre,documento:h.empleado_documento,cargo:h.empleado_cargo,eId:h.empresa_id,cId:h.casino_id},
+      quincena:{year:h.quincena_year,month:h.quincena_mes,q:h.quincena_q}
+    };
+    const idx=S.data.horarios.findIndex(x=>x.id===mapped.id);
+    if(idx>-1)S.data.horarios[idx]=mapped;else S.data.horarios.push(mapped);
+    if(h.casino_nombre&&!S.data.casinos.find(c=>c.id===h.casino_id))S.data.casinos.push({id:h.casino_id,eId:h.empresa_id,nombre:h.casino_nombre});
+    if(h.empresa_nombre&&!S.data.empresas.find(e=>e.id===h.empresa_id))S.data.empresas.push({id:h.empresa_id,nombre:h.empresa_nombre});
+  }catch(e){}
+}
 function render(){
   const hash=window.location.hash;
-  if(hash.startsWith('#firmar/')){const hId=parseInt(hash.replace('#firmar/',''));document.getElementById('app').innerHTML=rPortal(hId);bPortal(hId);return}
+  if(hash.startsWith('#firmar/')){
+    const hId=parseInt(hash.replace('#firmar/',''));
+    document.getElementById('app').innerHTML='<div class="portal-wrap"><div class="portal-card"><p style="text-align:center;padding:2rem;color:var(--color-text-secondary)">Cargando…</p></div></div>';
+    cargarPortal(hId).then(()=>{document.getElementById('app').innerHTML=rPortal(hId);bPortal(hId)});
+    return;
+  }
   document.getElementById('app').innerHTML=S.view==='login'?rLogin():rApp();
   S.view==='login'?bLogin():bApp();
 }
@@ -273,7 +306,6 @@ function rLogin(){return`<div class="lw"><div class="lc">
   <div class="fld"><label>Usuario</label><input id="lu" type="text" placeholder="Nombre de usuario"></div>
   <div class="fld"><label>Contraseña</label><input id="lp" type="password" placeholder="••••••••"></div>
   <button class="btn-login" id="lbtn"><i class="ti ti-login" style="vertical-align:-2px;margin-right:4px"></i>Ingresar al sistema</button>
-  <div class="login-hint"><strong>Accesos de prueba:</strong><br>admin / admin123 · rrhh1 / rrhh123<br>casino1 / cas123 · casino2 / cas456</div>
 </div></div>`}
 function bLogin(){document.getElementById('lbtn').onclick=doLogin;document.getElementById('lp').onkeypress=e=>{if(e.key==='Enter')doLogin()}}
 async function doLogin() {
@@ -283,7 +315,7 @@ async function doLogin() {
     const data = await api('POST', '/auth/login', { usuario: u, password: p });
     TOKEN = data.token;
     localStorage.setItem('token', TOKEN);
-    S.user = data;
+    S.user = { ...data, eId: data.empresa_id, cId: data.casino_id };
     S.view = 'app';
     S.menu = data.rol === 'Casino' ? 'horarios' : 'dashboard';
     if (data.rol === 'Casino') {
@@ -307,9 +339,12 @@ async function cargarDatos() {
   ]);
   S.data.empresas  = empresas;
   S.data.casinos   = casinos.map(c => ({ ...c, eId: c.empresa_id }));
-  S.data.usuarios  = usuarios;
+  S.data.usuarios  = usuarios.map(u => ({ ...u, eId: u.empresa_id, cId: u.casino_id }));
   S.data.horarios  = horarios.map(h => ({
     ...h,
+    sigAdmin: h.sig_admin,
+    sigEmpleado: h.sig_empleado,
+    quincenaKey: h.quincena_key,
     empleado: {
       nombre: h.empleado_nombre,
       documento: h.empleado_documento,
@@ -390,20 +425,23 @@ function rEmpresas(){
   const{empresas,casinos}=S.data,se=S.selEmp?empresas.find(e=>e.id===S.selEmp):null;
   return`<div class="ph"><div class="ph-left"><h1>Gestión de empresas</h1></div><button class="btn btn-primary" id="ne-btn"><i class="ti ti-plus"></i>Nueva empresa</button></div>
   <div class="pb">
-    <div class="card"><table><thead><tr><th>Empresa</th><th>Casinos</th><th>Acciones</th></tr></thead>
+    <div class="card"><table><thead><tr><th>Empresa</th><th>NIT</th><th>Casinos</th><th>Acciones</th></tr></thead>
     <tbody>${empresas.map(e=>{const n=casinos.filter(c=>c.eId===e.id).length;return`<tr class="row-normal"><td><span style="font-weight:500">${e.nombre}</span></td>
+      <td>${e.nit||'—'}</td>
       <td><span class="tag"><i class="ti ti-diamond" style="font-size:11px;color:var(--gold)"></i>${n}</span></td>
       <td style="display:flex;gap:4px"><button class="btn btn-sm" data-sc="${e.id}">Ver</button>
       <button class="btn btn-sm btn-gold" data-ac="${e.id}"><i class="ti ti-plus"></i>Casino</button>
+      <button class="btn btn-sm" data-ee="${e.id}"><i class="ti ti-edit"></i></button>
       <button class="btn btn-sm btn-r" data-de="${e.id}"><i class="ti ti-trash"></i></button></td></tr>`}).join('')}</tbody></table></div>
     ${se?`<div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)">
         <span style="font-weight:500;font-size:13px">Casinos — ${se.nombre}</span>
         <button class="btn btn-sm" id="cc-btn"><i class="ti ti-x"></i></button>
       </div>
-      <table><thead><tr><th>Casino</th><th></th></tr></thead>
+      <table><thead><tr><th>Casino</th><th>Ciudad</th><th></th></tr></thead>
       <tbody>${casinos.filter(c=>c.eId===se.id).map(c=>`<tr class="row-normal"><td><i class="ti ti-diamond" style="font-size:12px;color:var(--gold);margin-right:6px"></i>${c.nombre}</td>
-        <td><button class="btn btn-sm btn-r" data-dc="${c.id}"><i class="ti ti-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`:''}
+        <td>${c.ciudad||'—'}</td>
+        <td style="display:flex;gap:4px"><button class="btn btn-sm" data-ec="${c.id}"><i class="ti ti-edit"></i></button><button class="btn btn-sm btn-r" data-dc="${c.id}"><i class="ti ti-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`:''}
   </div>`;
 }
 
@@ -417,7 +455,7 @@ function rUsuarios(){
       <td><span class="badge ${rb}">${u.rol}</span></td>
       <td style="font-size:12px">${e?e.nombre:'<span style="color:var(--color-text-secondary)">Todas</span>'}</td>
       <td style="font-size:12px">${c?c.nombre:'<span style="color:var(--color-text-secondary)">Todos</span>'}</td>
-      <td><button class="btn btn-sm btn-r" data-du="${u.id}"><i class="ti ti-trash"></i></button></td></tr>`}).join('')}</tbody></table></div></div>`;
+      <td style="display:flex;gap:4px"><button class="btn btn-sm" data-eu="${u.id}"><i class="ti ti-edit"></i></button><button class="btn btn-sm btn-r" data-du="${u.id}"><i class="ti ti-trash"></i></button></td></tr>`}).join('')}</tbody></table></div></div>`;
 }
 
 /* ── TABLA DÍAS ── */
@@ -744,14 +782,31 @@ function fmt(n){return new Intl.NumberFormat('es-CO',{style:'currency',currency:
 /* ── MODALES ── */
 function rModal(){
   const{empresas,casinos}=S.data;let c='';
-  if(S.modal==='new-empresa'){c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-building-store"></i></div><h3>Nueva empresa</h3></div><div class="modal-body"><div class="ff"><label>Nombre</label><input type="text" id="mn"></div></div><div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">Crear empresa</button></div>`;}
-  else if(S.modal==='add-casino'){c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-diamond" style="color:var(--gold)"></i></div><h3>Nuevo casino</h3></div><div class="modal-body"><div class="ff"><label>Nombre del casino</label><input type="text" id="mn"></div></div><div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">Crear casino</button></div>`;}
-  else if(S.modal==='new-usuario'){c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-user-plus"></i></div><h3>Nuevo usuario</h3></div>
-    <div class="modal-body"><div class="form-grid"><div class="ff"><label>Usuario</label><input type="text" id="mu"></div><div class="ff"><label>Contraseña</label><input type="password" id="mpw"></div>
-    <div class="ff"><label>Rol</label><select id="mrol"><option>RRHH</option><option>Supervisor</option><option>Casino</option><option>Administrador</option></select></div>
-    <div class="ff"><label>Empresa</label><select id="memp"><option value="">Sin empresa</option>${empresas.map(e=>`<option value="${e.id}">${e.nombre}</option>`).join('')}</select></div>
-    <div class="ff"><label>Casino</label><select id="mcas"><option value="">Sin casino</option></select></div></div></div>
-    <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">Crear usuario</button></div>`;}
+  if(S.modal==='new-empresa'){
+    const ee=S.mdata?.editId?empresas.find(x=>x.id===S.mdata.editId):null;
+    c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-building-store"></i></div><h3>${ee?'Editar empresa':'Nueva empresa'}</h3></div>
+    <div class="modal-body"><div class="form-grid">
+    <div class="ff"><label>Nombre</label><input type="text" id="mn" value="${ee?ee.nombre:''}"></div>
+    <div class="ff"><label>NIT</label><input type="text" id="mnit" value="${ee&&ee.nit?ee.nit:''}"></div>
+    </div></div>
+    <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">${ee?'Guardar cambios':'Crear empresa'}</button></div>`;}
+  else if(S.modal==='add-casino'){
+    const ec=S.mdata?.editId?casinos.find(x=>x.id===S.mdata.editId):null;
+    c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-diamond" style="color:var(--gold)"></i></div><h3>${ec?'Editar casino':'Nuevo casino'}</h3></div>
+    <div class="modal-body"><div class="form-grid">
+    <div class="ff"><label>Nombre del casino</label><input type="text" id="mn" value="${ec?ec.nombre:''}"></div>
+    <div class="ff"><label>Ciudad</label><input type="text" id="mciudad" value="${ec&&ec.ciudad?ec.ciudad:''}"></div>
+    </div></div>
+    <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">${ec?'Guardar cambios':'Crear casino'}</button></div>`;}
+  else if(S.modal==='new-usuario'){
+    const eu=S.mdata?.editId?S.data.usuarios.find(x=>x.id===S.mdata.editId):null;
+    const avC=eu&&eu.eId?casinos.filter(c=>c.eId===parseInt(eu.eId)):casinos;
+    c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-user-plus"></i></div><h3>${eu?'Editar usuario':'Nuevo usuario'}</h3></div>
+    <div class="modal-body"><div class="form-grid"><div class="ff"><label>Usuario</label><input type="text" id="mu" value="${eu?eu.usuario:''}"></div><div class="ff"><label>Contraseña${eu?' (dejar vacío para no cambiar)':''}</label><input type="password" id="mpw"></div>
+    <div class="ff"><label>Rol</label><select id="mrol"><option ${eu?.rol==='RRHH'?'selected':''}>RRHH</option><option ${eu?.rol==='Supervisor'?'selected':''}>Supervisor</option><option ${eu?.rol==='Casino'?'selected':''}>Casino</option><option ${eu?.rol==='Administrador'?'selected':''}>Administrador</option></select></div>
+    <div class="ff"><label>Empresa</label><select id="memp"><option value="">Sin empresa</option>${empresas.map(e=>`<option value="${e.id}" ${eu&&parseInt(eu.eId)===e.id?'selected':''}>${e.nombre}</option>`).join('')}</select></div>
+    <div class="ff"><label>Casino</label><select id="mcas"><option value="">Sin casino</option>${avC.map(c=>`<option value="${c.id}" ${eu&&parseInt(eu.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div></div></div>
+    <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">${eu?'Guardar cambios':'Crear usuario'}</button></div>`;}
   else if(S.modal==='edit-horario'){
     const h=S.editHorario,selE=h.empleado.eId?parseInt(h.empleado.eId):null,avC=selE?casinos.filter(c=>c.eId===selE):casinos,selQ=h.quincena;
     c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-edit"></i></div>
@@ -899,10 +954,15 @@ function bPortal(hId){
   canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',end);canvas.addEventListener('mouseleave',end);
   canvas.addEventListener('touchstart',start,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',end);
   document.getElementById('portal-clear-sig')?.addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;wrap.classList.remove('signed');if(hint)hint.style.opacity='1';if(statusEl){statusEl.className='sig-status';statusEl.innerHTML='<i class="ti ti-circle-dashed"></i>Sin firma'}});
-  document.getElementById('portal-submit-btn')?.addEventListener('click',()=>{
+  document.getElementById('portal-submit-btn')?.addEventListener('click',async()=>{
     if(!hasSig){alert('Por favor firma antes de confirmar.');return}
     const sigData=canvas.toDataURL();const h=getH(hId);
-    if(h){h.sigEmpleado=sigData;addLog('firma-emp',`Firma recibida — horario #${hId}`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`,  'empleado-portal')}
+    const btn=document.getElementById('portal-submit-btn');if(btn){btn.disabled=true;btn.innerHTML='Guardando…'}
+    try{
+      const res=await fetch(API+'/horarios/'+hId+'/firma-empleado',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({sig_empleado:sigData})});
+      if(!res.ok)throw new Error('fallo al guardar');
+    }catch(err){alert('No se pudo guardar la firma. Intenta de nuevo.');if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-check"></i>Confirmar y enviar firma'}return}
+    if(h)h.sigEmpleado=sigData;
     window.location.hash='';
     document.getElementById('app').innerHTML=`<div class="portal-wrap"><div class="portal-card">
       <div class="portal-head"><div class="logo-mark"><i class="ti ti-diamond"></i></div><div><strong style="font-size:14px">Sistema de Horarios</strong></div></div>
@@ -937,10 +997,26 @@ function initAdminCanvas(){
 }
 
 /* ── GUARDAR / EDITAR ── */
-function commitEdit(){
+async function persistHorario(h){
+  const body={
+    empleado_nombre:h.empleado.nombre,
+    empleado_documento:h.empleado.documento,
+    empleado_cargo:h.empleado.cargo,
+    empresa_id:h.empleado.eId?parseInt(h.empleado.eId):null,
+    casino_id:h.empleado.cId?parseInt(h.empleado.cId):null,
+    estado:h.estado,
+    sig_admin:h.sigAdmin||null,
+    sig_empleado:h.sigEmpleado||null,
+    rows:h.rows
+  };
+  await api('PUT','/horarios/'+h.id,body);
+}
+async function commitEdit(){
   const h=S.editHorario,orig=getH(h.id);let ok=true;
   h.rows.forEach((r,i)=>{if(r.estado==='Horario'){h.rows[i].entradaErr=!valTime(r.entrada)||!r.entrada;h.rows[i].salidaErr=!valTime(r.salida)||!r.salida;if(h.rows[i].entradaErr||h.rows[i].salidaErr)ok=false}});
   if(!ok){render();return false}
+  h.estado='Procesado';
+  try{ await persistHorario(h); }catch(err){ alert('No se pudo guardar el horario: '+(err?.error||'error desconocido')); return false; }
   if(orig){
     const emp=h.empleado,oemp=orig.empleado;
     if(emp.nombre!==oemp.nombre)addLog('edit',`Horario #${h.id}: nombre cambiado`,`"${oemp.nombre}" → "${emp.nombre}"`);
@@ -953,17 +1029,29 @@ function commitEdit(){
     if(JSON.stringify(h.rows)!==JSON.stringify(orig.rows)||JSON.stringify(h.empleado)!==JSON.stringify(orig.empleado))addLog('edit',`Horario #${h.id} guardado con cambios`,`Empleado: ${emp.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
   }
   const idx=S.data.horarios.findIndex(x=>x.id===h.id);
-  if(idx>-1){S.data.horarios[idx]=JSON.parse(JSON.stringify(h));S.data.horarios[idx].estado='Procesado'}
+  if(idx>-1){S.data.horarios[idx]=JSON.parse(JSON.stringify(h))}
   S.editHorario=null;return true;
 }
 function valTime(v){if(!v)return true;const m=v.match(/^(\d{1,2}):(\d{2})$/);if(!m)return false;return+m[1]<=23&&+m[2]<=59}
-function saveSchedule(){
+async function saveSchedule(){
   let ok=true;
   S.rows.forEach((r,i)=>{if(r.estado==='Horario'){S.rows[i].entradaErr=!valTime(r.entrada)||!r.entrada;S.rows[i].salidaErr=!valTime(r.salida)||!r.salida;if(S.rows[i].entradaErr||S.rows[i].salidaErr)ok=false}});
   if(!ok){render();return}
   const e=S.emp;if(!e.nombre||!e.cId){alert('Completa nombre y casino del empleado');return}
   const q=S.selQ;
-  const newH={id:gid(),empleado:{...e},rows:JSON.parse(JSON.stringify(S.rows)),estado:'Pendiente',fechaGuardado:new Date().toISOString(),sigAdmin:SIG.admin||null,sigEmpleado:null,quincena:{...q},quincenaKey:quincenaKey(q.year,q.month,q.q)};
+  const rows=JSON.parse(JSON.stringify(S.rows));
+  const body={
+    empleado_nombre:e.nombre,empleado_documento:e.documento,empleado_cargo:e.cargo,
+    empresa_id:e.eId?parseInt(e.eId):null,casino_id:e.cId?parseInt(e.cId):null,
+    quincena_year:q.year,quincena_mes:q.month,quincena_q:q.q,quincena_key:quincenaKey(q.year,q.month,q.q),
+    sig_admin:SIG.admin||null,rows
+  };
+  let saved;
+  try{ saved=await api('POST','/horarios',body); }catch(err){ alert('No se pudo guardar el horario: '+(err?.error||'error desconocido')); return; }
+  const newH={
+    id:saved.id,empleado:{...e},rows,estado:'Pendiente',fechaGuardado:new Date().toISOString(),
+    sigAdmin:SIG.admin||null,sigEmpleado:null,quincena:{...q},quincenaKey:quincenaKey(q.year,q.month,q.q)
+  };
   S.data.horarios.push(newH);
   addLog('save',`Horario creado — empleado: ${e.nombre}`,`Casino: ${getCasNombre(e.cId)} · ${quincenaLabel(q.year,q.month,q.q)} · ${S.rows.length} días${SIG.admin?' · Con firma admin':''}`);
   S.rows=[];S.emp={nombre:'',documento:'',cargo:'',cId:S.user.cId||'',eId:S.user.eId||''};SIG.admin=null;
@@ -977,14 +1065,36 @@ function bApp(){
   document.querySelectorAll('.nav-item').forEach(el=>el.addEventListener('click',()=>{S.menu=el.dataset.menu;render()}));
   document.getElementById('dash-logs-btn')?.addEventListener('click',()=>{S.menu='logs';render()});
   document.querySelectorAll('.tab').forEach(el=>el.addEventListener('click',()=>{S.rrhhTab=el.dataset.tab;render()}));
-  document.getElementById('ne-btn')?.addEventListener('click',()=>{S.modal='new-empresa';render()});
+  document.getElementById('ne-btn')?.addEventListener('click',()=>{S.modal='new-empresa';S.mdata={};render()});
+  document.querySelectorAll('[data-ee]').forEach(el=>el.addEventListener('click',()=>{S.modal='new-empresa';S.mdata={editId:parseInt(el.dataset.ee)};render()}));
   document.getElementById('cc-btn')?.addEventListener('click',()=>{S.selEmp=null;render()});
   document.querySelectorAll('[data-sc]').forEach(el=>el.addEventListener('click',()=>{S.selEmp=parseInt(el.dataset.sc);render()}));
   document.querySelectorAll('[data-ac]').forEach(el=>el.addEventListener('click',()=>{S.modal='add-casino';S.mdata={eId:parseInt(el.dataset.ac)};render()}));
-  document.querySelectorAll('[data-de]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.de),e=S.data.empresas.find(x=>x.id===id);addLog('delete',`Empresa eliminada: ${e?.nombre||id}`);S.data.empresas=S.data.empresas.filter(x=>x.id!==id);S.data.casinos=S.data.casinos.filter(c=>c.eId!==id);if(S.selEmp===id)S.selEmp=null;render()}));
-  document.querySelectorAll('[data-dc]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.dc),c=S.data.casinos.find(x=>x.id===id);addLog('delete',`Casino eliminado: ${c?.nombre||id}`);S.data.casinos=S.data.casinos.filter(x=>x.id!==id);render()}));
-  document.getElementById('nu-btn')?.addEventListener('click',()=>{S.modal='new-usuario';render()});
-  document.querySelectorAll('[data-du]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.du);if(id===S.user.id)return;const u=S.data.usuarios.find(x=>x.id===id);addLog('delete',`Usuario eliminado: ${u?.usuario||id}`);S.data.usuarios=S.data.usuarios.filter(x=>x.id!==id);render()}));
+  document.querySelectorAll('[data-ec]').forEach(el=>el.addEventListener('click',()=>{S.modal='add-casino';S.mdata={editId:parseInt(el.dataset.ec)};render()}));
+  document.querySelectorAll('[data-de]').forEach(el=>el.addEventListener('click',async()=>{
+    const id=parseInt(el.dataset.de),e=S.data.empresas.find(x=>x.id===id);
+    if(!confirm(`¿Seguro que quieres eliminar la empresa "${e?.nombre||id}"? Esta acción no se puede deshacer.`))return;
+    try{await api('DELETE','/empresas/'+id)}catch(err){alert('No se pudo eliminar la empresa: '+(err?.error||'error desconocido'));return}
+    addLog('delete',`Empresa eliminada: ${e?.nombre||id}`);
+    S.data.empresas=S.data.empresas.filter(x=>x.id!==id);S.data.casinos=S.data.casinos.filter(c=>c.eId!==id);if(S.selEmp===id)S.selEmp=null;render()
+  }));
+  document.querySelectorAll('[data-dc]').forEach(el=>el.addEventListener('click',async()=>{
+    const id=parseInt(el.dataset.dc),c=S.data.casinos.find(x=>x.id===id);
+    if(!confirm(`¿Seguro que quieres eliminar el casino "${c?.nombre||id}"? Esta acción no se puede deshacer.`))return;
+    try{await api('DELETE','/casinos/'+id)}catch(err){alert('No se pudo eliminar el casino: '+(err?.error||'error desconocido'));return}
+    addLog('delete',`Casino eliminado: ${c?.nombre||id}`);
+    S.data.casinos=S.data.casinos.filter(x=>x.id!==id);render()
+  }));
+  document.getElementById('nu-btn')?.addEventListener('click',()=>{S.modal='new-usuario';S.mdata={};render()});
+  document.querySelectorAll('[data-eu]').forEach(el=>el.addEventListener('click',()=>{S.modal='new-usuario';S.mdata={editId:parseInt(el.dataset.eu)};render()}));
+  document.querySelectorAll('[data-du]').forEach(el=>el.addEventListener('click',async()=>{
+    const id=parseInt(el.dataset.du);if(id===S.user.id)return;
+    const u=S.data.usuarios.find(x=>x.id===id);
+    if(!confirm(`¿Seguro que quieres eliminar el usuario "${u?.usuario||id}"? Esta acción no se puede deshacer.`))return;
+    try{await api('DELETE','/usuarios/'+id)}catch(err){alert('No se pudo eliminar el usuario: '+(err?.error||'error desconocido'));return}
+    addLog('delete',`Usuario eliminado: ${u?.usuario||id}`);
+    S.data.usuarios=S.data.usuarios.filter(x=>x.id!==id);render()
+  }));
   document.getElementById('q-sel-form')?.addEventListener('change',e=>{const key=e.target.value,opt=genQOpts().find(o=>o.key===key);if(opt)S.selQ={year:opt.year,month:opt.month,q:opt.q};render()});
   document.getElementById('add-row')?.addEventListener('click',()=>{S.rows.push({fecha:'',estado:'Horario',entrada:'',salida:'',entradaErr:false,salidaErr:false});render()});
   document.getElementById('save-sch')?.addEventListener('click',saveSchedule);
@@ -1008,7 +1118,13 @@ function bApp(){
   document.querySelectorAll('[data-liq-q]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();S.modal='liq-quincena';S.mdata={qKey:el.dataset.liqQ};render()}));
   document.querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('click',()=>{const h=getH(parseInt(el.dataset.edit));if(!h)return;S.editHorario=JSON.parse(JSON.stringify(h));S.modal='edit-horario';addLog('edit',`Horario #${h.id} abierto para edición`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);render()}));
   document.querySelectorAll('[data-liq]').forEach(el=>el.addEventListener('click',()=>{S.liqId=parseInt(el.dataset.liq);S.modal='liquidar-persona';render()}));
-  document.querySelectorAll('[data-dh]').forEach(el=>el.addEventListener('click',()=>{const id=parseInt(el.dataset.dh),h=getH(id);addLog('delete',`Horario #${id} eliminado`,`Empleado: ${h?.empleado?.nombre||'?'}${h?.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);S.data.horarios=S.data.horarios.filter(x=>x.id!==id);render()}));
+  document.querySelectorAll('[data-dh]').forEach(el=>el.addEventListener('click',async()=>{
+    const id=parseInt(el.dataset.dh),h=getH(id);
+    if(!confirm(`¿Seguro que quieres eliminar el horario #${id}${h?.empleado?.nombre?' de '+h.empleado.nombre:''}? Esta acción no se puede deshacer.`))return;
+    try{await api('DELETE','/horarios/'+id)}catch(err){alert('No se pudo eliminar el horario: '+(err?.error||'error desconocido'));return}
+    addLog('delete',`Horario #${id} eliminado`,`Empleado: ${h?.empleado?.nombre||'?'}${h?.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
+    S.data.horarios=S.data.horarios.filter(x=>x.id!==id);render()
+  }));
   document.querySelectorAll('[data-wa]').forEach(el=>el.addEventListener('click',()=>{S.modal='firma-link';S.mdata={hId:parseInt(el.dataset.wa)};render()}));
   document.getElementById('lf-tipo')?.addEventListener('change',e=>{S.logFiltro.tipo=e.target.value;render()});
   document.getElementById('lf-user')?.addEventListener('input',e=>{S.logFiltro.usuario=e.target.value;render()});
@@ -1018,9 +1134,23 @@ function bApp(){
   document.getElementById('mc')?.addEventListener('click',()=>{S.modal=null;render()});
   document.getElementById('memp')?.addEventListener('change',()=>{const eId=document.getElementById('memp')?.value,sel=document.getElementById('mcas');if(!sel)return;const avC=eId?S.data.casinos.filter(c=>c.eId===parseInt(eId)):[];sel.innerHTML='<option value="">Sin casino</option>'+avC.map(c=>`<option value="${c.id}">${c.nombre}</option>`).join('')});
   document.getElementById('ms')?.addEventListener('click',handleSave);
-  document.getElementById('ms-edit-liq')?.addEventListener('click',()=>{const idP=S.editHorario?.id;if(!idP)return;if(!commitEdit())return;S.liqId=idP;S.modal='liquidar-persona';render()});
-  document.getElementById('ms-liq')?.addEventListener('click',()=>{const h=getH(S.liqId);if(h){h.estado='Liquidado';addLog('liquidado',`Horario #${h.id} liquidado`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`)}S.modal=null;render()});
-  document.getElementById('ms-liq-q')?.addEventListener('click',()=>{const qKey=S.mdata.qKey;S.data.horarios.forEach(h=>{if(h.quincenaKey===qKey&&h.estado!=='Liquidado'){h.estado='Liquidado';addLog('liquidado',`Horario #${h.id} liquidado (quincena)`,`Empleado: ${h.empleado.nombre}`)}});S.modal=null;render()});
+  document.getElementById('ms-edit-liq')?.addEventListener('click',async()=>{const idP=S.editHorario?.id;if(!idP)return;if(!await commitEdit())return;S.liqId=idP;S.modal='liquidar-persona';render()});
+  document.getElementById('ms-liq')?.addEventListener('click',async()=>{
+    const h=getH(S.liqId);if(!h)return;
+    h.estado='Liquidado';
+    try{await persistHorario(h)}catch(err){alert('No se pudo liquidar el horario: '+(err?.error||'error desconocido'));return}
+    addLog('liquidado',`Horario #${h.id} liquidado`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
+    S.modal=null;render()
+  });
+  document.getElementById('ms-liq-q')?.addEventListener('click',async()=>{
+    const qKey=S.mdata.qKey,pend=S.data.horarios.filter(h=>h.quincenaKey===qKey&&h.estado!=='Liquidado');
+    for(const h of pend){
+      h.estado='Liquidado';
+      try{await persistHorario(h)}catch(err){alert(`No se pudo liquidar el horario #${h.id}: `+(err?.error||'error desconocido'));continue}
+      addLog('liquidado',`Horario #${h.id} liquidado (quincena)`,`Empleado: ${h.empleado.nombre}`);
+    }
+    S.modal=null;render()
+  });
   document.getElementById('copy-link-btn')?.addEventListener('click',()=>{const hId=S.mdata?.hId;if(!hId)return;navigator.clipboard?.writeText(genFirmaLink(hId)).then(()=>{const btn=document.getElementById('copy-link-btn');if(btn){btn.innerHTML='<i class="ti ti-check"></i>Copiado';setTimeout(()=>{btn.innerHTML='<i class="ti ti-copy"></i>Copiar'},2000)}})});
   document.querySelectorAll('[data-wa-modal]').forEach(el=>el.addEventListener('click',()=>enviarWhatsApp(parseInt(el.dataset.waModal))));
   if(S.menu==='horarios')setTimeout(()=>initAdminCanvas(),60);
@@ -1040,15 +1170,62 @@ function bindRowInputs(){
     if(el.classList.contains('ti-inp')){el.addEventListener('input',()=>{let v=el.value.replace(/[^0-9]/g,'');if(v.length>4)v=v.slice(0,4);if(v.length>2)v=v.slice(0,2)+':'+v.slice(2);el.value=v})}
   });
 }
-function handleSave(){
-  if(S.modal==='new-empresa'){const n=document.getElementById('mn').value.trim();if(!n)return;S.data.empresas.push({id:gid(),nombre:n});addLog('create',`Empresa creada: ${n}`)}
-  else if(S.modal==='add-casino'){const n=document.getElementById('mn').value.trim();if(!n)return;const emp=S.data.empresas.find(e=>e.id===S.mdata.eId);S.data.casinos.push({id:gid(),eId:S.mdata.eId,nombre:n});addLog('create',`Casino creado: ${n}`,`Empresa: ${emp?.nombre||'?'}`)}
+async function handleSave(){
+  if(S.modal==='new-empresa'){
+    const n=document.getElementById('mn').value.trim();if(!n)return;
+    const nit=document.getElementById('mnit').value.trim();
+    const editId=S.mdata?.editId;
+    try{
+      if(editId){
+        const updated=await api('PUT','/empresas/'+editId,{nombre:n,nit});
+        const idx=S.data.empresas.findIndex(x=>x.id===editId);
+        if(idx>-1)S.data.empresas[idx]=updated;
+        addLog('edit',`Empresa editada: ${n}`);
+      }else{
+        const created=await api('POST','/empresas',{nombre:n,nit});
+        S.data.empresas.push(created);addLog('create',`Empresa creada: ${n}`);
+      }
+    }catch(err){ alert('No se pudo guardar la empresa: '+(err?.error||'error desconocido')); return; }
+  }
+  else if(S.modal==='add-casino'){
+    const n=document.getElementById('mn').value.trim();if(!n)return;
+    const ciudad=document.getElementById('mciudad').value.trim();
+    const editId=S.mdata?.editId;
+    try{
+      if(editId){
+        const updated=await api('PUT','/casinos/'+editId,{nombre:n,ciudad});
+        const idx=S.data.casinos.findIndex(x=>x.id===editId);
+        if(idx>-1)S.data.casinos[idx]={...updated,eId:updated.empresa_id};
+        addLog('edit',`Casino editado: ${n}`);
+      }else{
+        const emp=S.data.empresas.find(e=>e.id===S.mdata.eId);
+        const created=await api('POST','/casinos',{empresa_id:S.mdata.eId,nombre:n,ciudad});
+        S.data.casinos.push({...created,eId:created.empresa_id});addLog('create',`Casino creado: ${n}`,`Empresa: ${emp?.nombre||'?'}`);
+      }
+    }catch(err){ alert('No se pudo guardar el casino: '+(err?.error||'error desconocido')); return; }
+  }
   else if(S.modal==='new-usuario'){
     const u=document.getElementById('mu').value.trim(),pw=document.getElementById('mpw').value.trim(),rol=document.getElementById('mrol').value;
     const eId=document.getElementById('memp').value?parseInt(document.getElementById('memp').value):null;
     const cId=document.getElementById('mcas').value?parseInt(document.getElementById('mcas').value):null;
-    if(!u||!pw)return;S.data.usuarios.push({id:gid(),usuario:u,password:pw,rol,eId,cId});addLog('create',`Usuario creado: ${u}`,`Rol: ${rol}`);
-  }else if(S.modal==='edit-horario'){if(!commitEdit())return}
+    const editId=S.mdata?.editId;
+    if(!u)return;
+    if(!editId&&!pw)return;
+    const body={usuario:u,rol,empresa_id:eId,casino_id:cId};
+    if(pw)body.password=pw;
+    try{
+      if(editId){
+        const updated=await api('PUT','/usuarios/'+editId,body);
+        const idx=S.data.usuarios.findIndex(x=>x.id===editId);
+        if(idx>-1)S.data.usuarios[idx]={...updated,eId:updated.empresa_id,cId:updated.casino_id};
+        addLog('edit',`Usuario editado: ${u}`,`Rol: ${rol}`);
+      }else{
+        const created=await api('POST','/usuarios',body);
+        S.data.usuarios.push({...created,eId:created.empresa_id,cId:created.casino_id});
+        addLog('create',`Usuario creado: ${u}`,`Rol: ${rol}`);
+      }
+    }catch(err){ alert('No se pudo guardar el usuario: '+(err?.error||'error desconocido')); return; }
+  }else if(S.modal==='edit-horario'){if(!await commitEdit())return}
   S.modal=null;S.mdata={};render();
 }
 window.addEventListener('hashchange',()=>render());
