@@ -49,6 +49,7 @@ body{font-family:var(--font-sans,'Segoe UI',sans-serif);background:var(--page-bg
 .nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
 .nav-item.active{background:rgba(184,149,42,.12);color:var(--gold);border-left-color:var(--gold)}
 .nav-item i{font-size:15px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:#D97706;color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:20px;line-height:1.5}
 .sb-foot{margin-top:auto;padding:.875rem 1.25rem;border-top:0.5px solid rgba(255,255,255,.08)}
 .uchip{display:flex;align-items:center;gap:9px;margin-bottom:10px}
 .uavatar{width:30px;height:30px;border-radius:50%;background:rgba(184,149,42,.18);border:0.5px solid rgba(184,149,42,.35);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--gold);flex-shrink:0}
@@ -140,6 +141,15 @@ select.est-sel{padding:5px 7px;border:0.5px solid var(--color-border-secondary);
 .cg-title{display:flex;align-items:center;gap:8px;font-weight:500;font-size:13px}
 .cg-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .liq-persona-block{border:0.5px solid var(--color-border-tertiary);border-radius:8px;margin-bottom:.75rem;overflow:hidden}
+.chk-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;max-height:180px;overflow-y:auto;border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.6rem}
+.chk-item{display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer}
+.perm-mod{border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.6rem .75rem;margin-bottom:8px}
+.perm-mod-title{font-size:12.5px;font-weight:500;margin-bottom:6px}
+.perm-mod-acciones{display:flex;flex-wrap:wrap;gap:10px 16px}
+.hist-timeline{position:relative;padding-left:20px}
+.hist-item{position:relative;padding-bottom:1.1rem;border-left:2px solid var(--color-border-tertiary);padding-left:16px;margin-left:2px}
+.hist-item:last-child{border-left-color:transparent;padding-bottom:0}
+.hist-dot{position:absolute;left:-6px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--card-bg)}
 .lpb-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--color-background-secondary);font-size:13px;font-weight:500}
 .lpb-body{padding:.75rem 1rem}
 .lpb-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
@@ -294,8 +304,30 @@ function getH(id){return S.data.horarios.find(h=>h.id===id)||null}
 function getCasNombre(cId){return S.data.casinos.find(c=>c.id===parseInt(cId))?.nombre||'?'}
 const LOG_CSS={login:'log-login',logout:'log-logout',create:'log-create',edit:'log-edit',delete:'log-delete',sign:'log-sign',save:'log-save','row-add':'log-row-add','row-del':'log-row-del','row-edit':'log-row-edit',estado:'log-estado',liquidado:'log-liquidado','firma-admin':'log-firma-admin','firma-emp':'log-firma-emp',link:'log-link'};
 const LOG_LABELS={login:'Acceso',logout:'Salida',create:'Crear',edit:'Editar',delete:'Eliminar',sign:'Firma',save:'Guardar','row-add':'Fila +','row-del':'Fila −','row-edit':'Fila ✎',estado:'Estado',liquidado:'Liquidado','firma-admin':'Firma Admin','firma-emp':'Firma Emp.',link:'Link WA'};
-function addLog(tipo,desc,detalle,usr){S.data.logs.unshift({id:gid(),tipo,desc,detalle:detalle||null,usuario:usr||(S.user?S.user.usuario:'sistema'),ts:new Date().toISOString()});if(S.data.logs.length>300)S.data.logs=S.data.logs.slice(0,300)}
+const MODULOS_PERMISOS=[
+  {key:'empresas',label:'Gestión de empresas y casinos',acciones:[['ver','Ver'],['crear','Crear'],['editar','Editar'],['eliminar','Eliminar']]},
+  {key:'usuarios',label:'Gestión de usuarios',acciones:[['ver','Ver'],['crear','Crear'],['editar','Editar'],['eliminar','Eliminar']]},
+  {key:'horarios_consulta',label:'Consulta de horarios',acciones:[['ver','Ver / filtrar']]},
+  {key:'horarios_registro',label:'Registrar horarios',acciones:[['crear','Crear'],['editar','Editar'],['liquidar','Liquidar'],['eliminar','Eliminar']]},
+  {key:'logs',label:'Registro de logs',acciones:[['ver','Ver'],['eliminar','Limpiar']]}
+];
+function addLog(tipo,desc,detalle,usr,horarioId){
+  S.data.logs.unshift({id:gid(),tipo,desc,detalle:detalle||null,usuario:usr||(S.user?S.user.usuario:'sistema'),ts:new Date().toISOString(),horarioId:horarioId||null});
+  if(S.data.logs.length>300)S.data.logs=S.data.logs.slice(0,300);
+  if(TOKEN){api('POST','/logs',{tipo,descripcion:desc,detalle:detalle||null,horario_id:horarioId||null}).catch(()=>{})}
+}
 function fmtTs(ts){const d=new Date(ts);return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+function rolAsignacion(nombreRol){const r=(S.data.roles||[]).find(x=>x.nombre===nombreRol);return r?r.asignacion:'multi_empresa'}
+function badgeClass(nombre){const classes=['ba','br','bs','bc'];let h=0;for(let i=0;i<(nombre||'').length;i++)h=(h*31+nombre.charCodeAt(i))>>>0;return classes[h%classes.length]}
+const DIAS_RECORDATORIO=3;
+function diasPendientes(h){
+  const base=h.creadoEn||h.fechaGuardado;if(!base)return 0;
+  return Math.floor((Date.now()-new Date(base).getTime())/(1000*60*60*24));
+}
+function getPendientesFirma(){
+  return S.data.horarios.filter(h=>h.estado!=='Liquidado'&&!h.sigEmpleado&&diasPendientes(h)>=DIAS_RECORDATORIO)
+    .sort((a,b)=>diasPendientes(b)-diasPendientes(a));
+}
 
 /* ── LOGIN ── */
 function rLogin(){return`<div class="lw"><div class="lc">
@@ -315,10 +347,10 @@ async function doLogin() {
     const data = await api('POST', '/auth/login', { usuario: u, password: p });
     TOKEN = data.token;
     localStorage.setItem('token', TOKEN);
-    S.user = { ...data, eId: data.empresa_id, cId: data.casino_id };
+    S.user = { ...data, eId: data.empresa_id, cId: data.casino_id, empresaIds: data.empresa_ids || [], permisos: data.permisos || {}, asignacion: data.asignacion || 'multi_empresa' };
     S.view = 'app';
-    S.menu = data.rol === 'Casino' ? 'horarios' : 'dashboard';
-    if (data.rol === 'Casino') {
+    S.menu = data.asignacion === 'single_casino' ? 'horarios' : 'dashboard';
+    if (data.asignacion === 'single_casino') {
       S.emp.eId = data.empresa_id;
       S.emp.cId = data.casino_id;
     }
@@ -331,20 +363,25 @@ async function doLogin() {
 }
 
 async function cargarDatos() {
-  const [empresas, casinos, usuarios, horarios] = await Promise.all([
+  const perm = S.user.permisos || {};
+  const [empresas, casinos, usuarios, horarios, logs, roles] = await Promise.all([
     api('GET', '/empresas'),
     api('GET', '/casinos'),
-    S.user.rol === 'Administrador' ? api('GET', '/usuarios') : Promise.resolve([]),
-    api('GET', '/horarios')
+    perm.usuarios?.ver ? api('GET', '/usuarios').catch(()=>[]) : Promise.resolve([]),
+    api('GET', '/horarios'),
+    perm.logs?.ver ? api('GET', '/logs').catch(()=>[]) : Promise.resolve([]),
+    S.user.rol === 'Administrador' ? api('GET', '/roles').catch(()=>[]) : Promise.resolve([])
   ]);
   S.data.empresas  = empresas;
   S.data.casinos   = casinos.map(c => ({ ...c, eId: c.empresa_id }));
-  S.data.usuarios  = usuarios.map(u => ({ ...u, eId: u.empresa_id, cId: u.casino_id }));
+  S.data.usuarios  = usuarios.map(u => ({ ...u, eId: u.empresa_id, cId: u.casino_id, empresaIds: u.empresa_ids || [] }));
+  S.data.roles     = roles;
   S.data.horarios  = horarios.map(h => ({
     ...h,
     sigAdmin: h.sig_admin,
     sigEmpleado: h.sig_empleado,
     quincenaKey: h.quincena_key,
+    creadoEn: h.creado_en,
     empleado: {
       nombre: h.empleado_nombre,
       documento: h.empleado_documento,
@@ -358,18 +395,28 @@ async function cargarDatos() {
       q: h.quincena_q
     }
   }));
+  S.data.logs = logs.map(l => ({ id: l.id, tipo: l.tipo, desc: l.descripcion, detalle: l.detalle, usuario: l.usuario, ts: l.ts, horarioId: l.horario_id }));
 }
 
 /* ── NAV ── */
 function buildNav(rol){
-  const base={
-    Administrador:[{l:'General',items:[['dashboard','ti-layout-dashboard','Panel principal'],['empresas','ti-building-store','Empresas'],['usuarios','ti-users','Usuarios']]},{l:'Sistema',items:[['logs','ti-activity','Registro de logs']]}],
-    RRHH:[{l:'General',items:[['dashboard','ti-layout-dashboard','Panel principal'],['consulta','ti-search','Consulta horarios']]}],
-    Supervisor:[{l:'General',items:[['dashboard','ti-layout-dashboard','Panel principal']]}],
-    Casino:[{l:'Operaciones',items:[['horarios','ti-calendar-event','Registrar horario']]}]
-  };
-  return(base[rol]||[]).map(s=>`<div class="sb-sec"><div class="sb-sec-lbl">${s.l}</div>
-    ${s.items.map(([id,ic,lb])=>`<div class="nav-item${S.menu===id?' active':''}" data-menu="${id}"><i class="ti ${ic}"></i>${lb}</div>`).join('')}
+  const restringido=rol!=='Administrador'&&S.user?.empresaIds&&S.user.empresaIds.length>0;
+  const nPend=getPendientesFirma().filter(h=>!restringido||S.user.empresaIds.includes(parseInt(h.empleado.eId))).length;
+  const p=S.user.permisos||{};
+  const general=[['dashboard','ti-layout-dashboard','Panel principal']];
+  if(p.empresas?.ver)general.push(['empresas','ti-building-store','Empresas']);
+  if(p.usuarios?.ver)general.push(['usuarios','ti-users','Usuarios']);
+  if(p.horarios_consulta?.ver)general.push(['consulta','ti-search','Consulta horarios']);
+  const operaciones=[];
+  if(p.horarios_registro?.crear)operaciones.push(['horarios','ti-calendar-event','Registrar horario']);
+  const sistema=[];
+  if(p.logs?.ver)sistema.push(['logs','ti-activity','Registro de logs']);
+  if(rol==='Administrador')sistema.push(['roles','ti-shield-lock','Roles y permisos']);
+  const secciones=[{l:'General',items:general}];
+  if(operaciones.length)secciones.push({l:'Operaciones',items:operaciones});
+  if(sistema.length)secciones.push({l:'Sistema',items:sistema});
+  return secciones.map(s=>`<div class="sb-sec"><div class="sb-sec-lbl">${s.l}</div>
+    ${s.items.map(([id,ic,lb])=>`<div class="nav-item${S.menu===id?' active':''}" data-menu="${id}"><i class="ti ${ic}"></i>${lb}${id==='dashboard'&&nPend?`<span class="nav-badge">${nPend}</span>`:''}</div>`).join('')}
   </div>`).join('');
 }
 function rApp(){return`<div class="layout">
@@ -387,11 +434,13 @@ function rApp(){return`<div class="layout">
   </aside>
   <main class="main">${rPage()}</main>
 </div>${S.modal?rModal():''}`}
-function rPage(){switch(S.menu){case'dashboard':return rDash();case'empresas':return rEmpresas();case'usuarios':return rUsuarios();case'horarios':return rHorarios();case'consulta':return rConsulta();case'logs':return rLogs();default:return rDash()}}
+function rPage(){switch(S.menu){case'dashboard':return rDash();case'empresas':return rEmpresas();case'usuarios':return rUsuarios();case'horarios':return rHorarios();case'consulta':return rConsulta();case'logs':return rLogs();case'roles':return rRoles();default:return rDash()}}
 
 /* ── DASHBOARD ── */
 function rDash(){
   const{empresas,casinos,usuarios,horarios,logs}=S.data;
+  const restringido=S.user.rol!=='Administrador'&&S.user.empresaIds&&S.user.empresaIds.length>0;
+  const pendientes=getPendientesFirma().filter(h=>!restringido||S.user.empresaIds.includes(parseInt(h.empleado.eId)));
   return`<div class="ph"><div class="ph-left"><h1>Panel principal</h1><p>Resumen general del sistema</p></div></div>
   <div class="pb">
     <div class="stats-grid">
@@ -400,6 +449,17 @@ function rDash(){
       <div class="stat-card"><div class="stat-icon"><i class="ti ti-users" style="font-size:16px"></i></div><div class="stat-lbl">Usuarios</div><div class="stat-val">${usuarios.length}</div></div>
       <div class="stat-card"><div class="stat-icon"><i class="ti ti-calendar-check" style="font-size:16px"></i></div><div class="stat-lbl">Horarios</div><div class="stat-val">${horarios.length}</div></div>
     </div>
+    ${pendientes.length?`<div class="card card-pad" style="margin-bottom:1.25rem;border-left:3px solid #D97706">
+      <div class="ch"><h3><i class="ti ti-bell-ringing" style="color:#D97706;font-size:15px;vertical-align:-2px;margin-right:4px"></i>Recordatorio — firmas pendientes</h3><span class="badge" style="background:#FEF3C7;color:#92400E">${pendientes.length}</span></div>
+      <p style="font-size:12px;color:var(--color-text-secondary);margin:-4px 0 10px">Llevan ${DIAS_RECORDATORIO}+ días esperando la firma del empleado.</p>
+      ${pendientes.slice(0,8).map(h=>{const cas=casinos.find(c=>c.id===parseInt(h.empleado.cId)),d=diasPendientes(h);
+        return`<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)">
+          <div><span style="font-weight:500;font-size:13px">${h.empleado.nombre}</span><span style="font-size:11px;color:var(--color-text-secondary);margin-left:6px">${cas?cas.nombre:'—'}</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="badge" style="background:#FEF3C7;color:#92400E;font-size:10px">${d} día${d!==1?'s':''}</span>
+          <button class="btn btn-sm btn-wa" data-wa="${h.id}"><i class="ti ti-brand-whatsapp"></i></button></div>
+        </div>`}).join('')}
+      ${pendientes.length>8?`<div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px">+ ${pendientes.length-8} más...</div>`:''}
+    </div>`:''}
     ${S.user.rol==='Administrador'?`<div class="card card-pad" style="margin-bottom:1.25rem">
       <div class="ch"><h3>Últimos eventos</h3><button class="btn btn-sm" id="dash-logs-btn">Ver todos</button></div>
       ${logs.slice(0,5).map(l=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)">
@@ -449,11 +509,15 @@ function rEmpresas(){
 function rUsuarios(){
   const{usuarios,empresas,casinos}=S.data;
   return`<div class="ph"><div class="ph-left"><h1>Gestión de usuarios</h1></div><button class="btn btn-primary" id="nu-btn"><i class="ti ti-plus"></i>Nuevo usuario</button></div>
-  <div class="pb"><div class="card"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Empresa</th><th>Casino</th><th></th></tr></thead>
-  <tbody>${usuarios.map(u=>{const e=empresas.find(x=>x.id===u.eId),c=casinos.find(x=>x.id===u.cId);const rb={Administrador:'ba',RRHH:'br',Supervisor:'bs',Casino:'bc'}[u.rol]||'bc';
+  <div class="pb"><div class="card"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Empresa(s)</th><th>Casino</th><th></th></tr></thead>
+  <tbody>${usuarios.map(u=>{const c=casinos.find(x=>x.id===u.cId);const rb=badgeClass(u.rol);
+    let empresaCol;
+    if(rolAsignacion(u.rol)==='single_casino'){const e=empresas.find(x=>x.id===u.eId);empresaCol=e?e.nombre:'<span style="color:var(--color-text-secondary)">Sin asignar</span>';}
+    else if(u.empresaIds&&u.empresaIds.length){empresaCol=u.empresaIds.map(id=>empresas.find(e=>e.id===id)?.nombre).filter(Boolean).join(', ');}
+    else empresaCol='<span style="color:var(--color-text-secondary)">Todas</span>';
     return`<tr class="row-normal"><td><span style="font-weight:500">${u.usuario}</span></td>
       <td><span class="badge ${rb}">${u.rol}</span></td>
-      <td style="font-size:12px">${e?e.nombre:'<span style="color:var(--color-text-secondary)">Todas</span>'}</td>
+      <td style="font-size:12px">${empresaCol}</td>
       <td style="font-size:12px">${c?c.nombre:'<span style="color:var(--color-text-secondary)">Todos</span>'}</td>
       <td style="display:flex;gap:4px"><button class="btn btn-sm" data-eu="${u.id}"><i class="ti ti-edit"></i></button><button class="btn btn-sm btn-r" data-du="${u.id}"><i class="ti ti-trash"></i></button></td></tr>`}).join('')}</tbody></table></div></div>`;
 }
@@ -525,14 +589,14 @@ function rSigBlock(id,label,signed){
 
 /* ── HORARIOS ── */
 function rHorarios(){
-  const u=S.user,{empresas,casinos}=S.data,e=S.emp;
-  const avEmp=u.rol==='Casino'?empresas.filter(x=>x.id===u.eId):empresas;
+  const u=S.user,{empresas,casinos}=S.data,e=S.emp,esUnico=u.asignacion==='single_casino';
+  const avEmp=esUnico?empresas.filter(x=>x.id===u.eId):empresas;
   const selE=e.eId?parseInt(e.eId):null;
   const avCas=selE?casinos.filter(c=>c.eId===selE):[];
-  const fCas=u.rol==='Casino'?avCas.filter(c=>c.id===u.cId):avCas;
+  const fCas=esUnico?avCas.filter(c=>c.id===u.cId):avCas;
   const cas=casinos.find(c=>c.id===parseInt(e.cId));
   const q=S.selQ,opts=genQOpts().slice(0,6),selOpt=opts.find(o=>o.key===quincenaKey(q.year,q.month,q.q))||opts[0];
-  return`<div class="ph"><div class="ph-left"><h1>Registrar horario</h1><p>${u.rol==='Casino'&&cas?cas.nombre:'Ingreso de turnos'}</p></div></div>
+  return`<div class="ph"><div class="ph-left"><h1>Registrar horario</h1><p>${esUnico&&cas?cas.nombre:'Ingreso de turnos'}</p></div></div>
   <div class="pb">
     <div class="card card-pad">
       <div class="ch"><h3>Período — Quincena</h3>
@@ -552,9 +616,9 @@ function rHorarios(){
         <div class="ff"><label>Nombre completo</label><input type="text" id="en" value="${e.nombre}" placeholder="Nombre del empleado"></div>
         <div class="ff"><label>N° documento</label><input type="text" id="ed" value="${e.documento||''}" placeholder="Cédula o pasaporte"></div>
         <div class="ff"><label>Cargo</label><input type="text" id="ec" value="${e.cargo||''}" placeholder="Cargo o posición"></div>
-        <div class="ff"><label>Empresa</label><select id="ee" ${u.rol==='Casino'?'disabled':''}><option value="">Seleccionar...</option>
+        <div class="ff"><label>Empresa</label><select id="ee" ${esUnico?'disabled':''}><option value="">Seleccionar...</option>
           ${avEmp.map(x=>`<option value="${x.id}" ${selE===x.id?'selected':''}>${x.nombre}</option>`).join('')}</select></div>
-        <div class="ff"><label>Casino</label><select id="eca" ${u.rol==='Casino'?'disabled':''}><option value="">Seleccionar...</option>
+        <div class="ff"><label>Casino</label><select id="eca" ${esUnico?'disabled':''}><option value="">Seleccionar...</option>
           ${fCas.map(c=>`<option value="${c.id}" ${parseInt(e.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div>
       </div>
     </div>
@@ -590,10 +654,13 @@ function rConsulta(){
 }
 
 function rTabLista(){
-  const{horarios,empresas,casinos}=S.data,f=S.rrhhFiltro;
-  const selE=f.eId?parseInt(f.eId):null,avCas=selE?casinos.filter(c=>c.eId===selE):casinos;
+  const{horarios,casinos}=S.data,f=S.rrhhFiltro;
+  const restringido=S.user.rol!=='Administrador'&&S.user.empresaIds&&S.user.empresaIds.length>0;
+  const empresas=restringido?S.data.empresas.filter(e=>S.user.empresaIds.includes(e.id)):S.data.empresas;
+  const selE=f.eId?parseInt(f.eId):null,avCas=selE?casinos.filter(c=>c.eId===selE):(restringido?casinos.filter(c=>S.user.empresaIds.includes(c.eId)):casinos);
   const opts=genQOpts();
   let lista=horarios;
+  if(restringido)lista=lista.filter(h=>S.user.empresaIds.includes(parseInt(h.empleado.eId)));
   if(selE)lista=lista.filter(h=>parseInt(h.empleado.eId)===selE);
   if(f.cId)lista=lista.filter(h=>parseInt(h.empleado.cId)===parseInt(f.cId));
   if(f.texto)lista=lista.filter(h=>h.empleado.nombre.toLowerCase().includes(f.texto.toLowerCase())||h.empleado.documento?.includes(f.texto));
@@ -627,6 +694,7 @@ function rTabLista(){
           <button class="btn btn-sm btn-b" data-edit="${h.id}"><i class="ti ti-edit"></i></button>
           <button class="btn btn-sm btn-o" data-liq="${h.id}"><i class="ti ti-calculator"></i></button>
           <button class="btn btn-sm btn-wa" data-wa="${h.id}"><i class="ti ti-brand-whatsapp"></i></button>
+          <button class="btn btn-sm" data-hist="${h.id}"><i class="ti ti-history"></i></button>
           <button class="btn btn-sm btn-r" data-dh="${h.id}"><i class="ti ti-trash"></i></button>
         </div></td>
       </tr>`;}).join('')}
@@ -635,9 +703,12 @@ function rTabLista(){
 }
 
 function rTabHistorial(){
-  const{horarios,empresas,casinos}=S.data,f=S.histFiltro;
-  const selE=f.eId?parseInt(f.eId):null,avCas=selE?casinos.filter(c=>c.eId===selE):casinos;
+  const{horarios,casinos}=S.data,f=S.histFiltro;
+  const restringido=S.user.rol!=='Administrador'&&S.user.empresaIds&&S.user.empresaIds.length>0;
+  const empresas=restringido?S.data.empresas.filter(e=>S.user.empresaIds.includes(e.id)):S.data.empresas;
+  const selE=f.eId?parseInt(f.eId):null,avCas=selE?casinos.filter(c=>c.eId===selE):(restringido?casinos.filter(c=>S.user.empresaIds.includes(c.eId)):casinos);
   let lista=horarios;
+  if(restringido)lista=lista.filter(h=>S.user.empresaIds.includes(parseInt(h.empleado.eId)));
   if(selE)lista=lista.filter(h=>parseInt(h.empleado.eId)===selE);
   if(f.cId)lista=lista.filter(h=>parseInt(h.empleado.cId)===parseInt(f.cId));
   const byMes={};
@@ -754,6 +825,46 @@ function rLogs(){
   </div>`;
 }
 
+function rRolForm(){
+  const er=S.mdata?.editId?S.data.roles.find(r=>r.id===S.mdata.editId):null;
+  const nombre=S.mdata.nombre!==undefined?S.mdata.nombre:(er?er.nombre:'');
+  const asignacion=S.mdata.asignacion||er?.asignacion||'multi_empresa';
+  const permisos=S.mdata.permisos||er?.permisos||{};
+  return`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-shield-lock" style="color:var(--gold)"></i></div><h3>${er?'Editar rol':'Nuevo rol'}</h3></div>
+  <div class="modal-body">
+  <div class="form-grid">
+    <div class="ff"><label>Nombre del rol</label><input type="text" id="mrnombre" value="${nombre}" ${er?.es_sistema?'disabled':''}></div>
+    <div class="ff"><label>Modo de asignación</label><select id="mrasig">
+      <option value="multi_empresa" ${asignacion==='multi_empresa'?'selected':''}>Multi-empresa (accede a varias empresas)</option>
+      <option value="single_casino" ${asignacion==='single_casino'?'selected':''}>Un solo casino (operador de un casino específico)</option>
+    </select></div>
+  </div>
+  <div style="margin-top:1rem">
+    <label style="font-size:12px;font-weight:500;display:block;margin-bottom:8px">Permisos por módulo</label>
+    ${MODULOS_PERMISOS.map(m=>`<div class="perm-mod">
+      <div class="perm-mod-title">${m.label}</div>
+      <div class="perm-mod-acciones">${m.acciones.map(([a,lb])=>`<label class="chk-item"><input type="checkbox" class="perm-chk" data-mod="${m.key}" data-accion="${a}" ${permisos?.[m.key]?.[a]?'checked':''}> ${lb}</label>`).join('')}</div>
+    </div>`).join('')}
+  </div>
+  </div>
+  <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">${er?'Guardar cambios':'Crear rol'}</button></div>`;
+}
+
+function rRoles(){
+  if(S.user?.rol!=='Administrador')return`<div class="ph"><div class="ph-left"><h1>Acceso denegado</h1></div></div>`;
+  const roles=S.data.roles||[];
+  return`<div class="ph"><div class="ph-left"><h1>Roles y permisos</h1><p>Define qué puede ver y hacer cada rol</p></div><button class="btn btn-primary" id="nr-btn"><i class="ti ti-plus"></i>Nuevo rol</button></div>
+  <div class="pb"><div class="card"><table><thead><tr><th>Rol</th><th>Asignación</th><th>Permisos</th><th>Usuarios</th><th></th></tr></thead>
+  <tbody>${roles.map(r=>{
+    const nUsuarios=S.data.usuarios.filter(u=>u.rol===r.nombre).length;
+    const resumen=MODULOS_PERMISOS.filter(m=>m.acciones.some(([a])=>r.permisos?.[m.key]?.[a])).map(m=>m.label.split(' ')[0]);
+    return`<tr class="row-normal"><td><span style="font-weight:500">${r.nombre}</span>${r.es_sistema?'<span class="tag" style="font-size:10px;margin-left:6px">Sistema</span>':''}</td>
+      <td style="font-size:12px">${r.asignacion==='single_casino'?'Un solo casino':'Multi-empresa'}</td>
+      <td style="font-size:11px;color:var(--color-text-secondary)">${resumen.length?resumen.join(', '):'Sin permisos'}</td>
+      <td style="font-size:12px">${nUsuarios}</td>
+      <td style="display:flex;gap:4px"><button class="btn btn-sm" data-er="${r.id}"><i class="ti ti-edit"></i></button>${!r.es_sistema?`<button class="btn btn-sm btn-r" data-dr="${r.id}"><i class="ti ti-trash"></i></button>`:''}</td></tr>`}).join('')}</tbody></table></div></div>`;
+}
+
 /* ── CÁLCULOS ── */
 function calcHrs(ent,sal){const[eh,em]=ent.split(':').map(Number),[sh,sm]=sal.split(':').map(Number);let m=(sh*60+sm)-(eh*60+em);if(m<0)m+=1440;return m/60}
 function getMin(t){const[h,m]=t.split(':').map(Number);return h*60+m}
@@ -800,12 +911,24 @@ function rModal(){
     <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">${ec?'Guardar cambios':'Crear casino'}</button></div>`;}
   else if(S.modal==='new-usuario'){
     const eu=S.mdata?.editId?S.data.usuarios.find(x=>x.id===S.mdata.editId):null;
-    const avC=eu&&eu.eId?casinos.filter(c=>c.eId===parseInt(eu.eId)):casinos;
+    const rolesDisp=S.data.roles&&S.data.roles.length?S.data.roles:[{nombre:'RRHH'},{nombre:'Supervisor'},{nombre:'Casino'},{nombre:'Administrador'}];
+    const rolSel=S.mdata.rol||eu?.rol||rolesDisp[0].nombre;
+    const curEId=S.mdata.eId!==undefined?S.mdata.eId:(eu?eu.eId:'');
+    const checkedEmpresas=S.mdata.empresaIds||(eu?(eu.empresaIds||[]):[]);
+    const avC=curEId?casinos.filter(c=>c.eId===parseInt(curEId)):casinos;
+    const esUnico=rolAsignacion(rolSel)==='single_casino';
     c=`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-user-plus"></i></div><h3>${eu?'Editar usuario':'Nuevo usuario'}</h3></div>
-    <div class="modal-body"><div class="form-grid"><div class="ff"><label>Usuario</label><input type="text" id="mu" value="${eu?eu.usuario:''}"></div><div class="ff"><label>Contraseña${eu?' (dejar vacío para no cambiar)':''}</label><input type="password" id="mpw"></div>
-    <div class="ff"><label>Rol</label><select id="mrol"><option ${eu?.rol==='RRHH'?'selected':''}>RRHH</option><option ${eu?.rol==='Supervisor'?'selected':''}>Supervisor</option><option ${eu?.rol==='Casino'?'selected':''}>Casino</option><option ${eu?.rol==='Administrador'?'selected':''}>Administrador</option></select></div>
-    <div class="ff"><label>Empresa</label><select id="memp"><option value="">Sin empresa</option>${empresas.map(e=>`<option value="${e.id}" ${eu&&parseInt(eu.eId)===e.id?'selected':''}>${e.nombre}</option>`).join('')}</select></div>
-    <div class="ff"><label>Casino</label><select id="mcas"><option value="">Sin casino</option>${avC.map(c=>`<option value="${c.id}" ${eu&&parseInt(eu.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div></div></div>
+    <div class="modal-body"><div class="form-grid">
+    <div class="ff"><label>Usuario</label><input type="text" id="mu" value="${S.mdata.usuario!==undefined?S.mdata.usuario:(eu?eu.usuario:'')}"></div>
+    <div class="ff"><label>Contraseña${eu?' (dejar vacío para no cambiar)':''}</label><input type="password" id="mpw" value="${S.mdata.pw||''}"></div>
+    <div class="ff"><label>Rol</label><select id="mrol">${rolesDisp.map(r=>`<option ${rolSel===r.nombre?'selected':''}>${r.nombre}</option>`).join('')}</select></div>
+    ${esUnico?`
+    <div class="ff"><label>Empresa</label><select id="memp"><option value="">Sin empresa</option>${empresas.map(e=>`<option value="${e.id}" ${parseInt(curEId)===e.id?'selected':''}>${e.nombre}</option>`).join('')}</select></div>
+    <div class="ff"><label>Casino</label><select id="mcas"><option value="">Sin casino</option>${avC.map(c=>`<option value="${c.id}" ${eu&&parseInt(eu.cId)===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div>`:`
+    <div class="ff" style="grid-column:1/-1"><label>Empresas asignadas <span style="font-weight:400;color:var(--color-text-secondary);font-size:11px">(ninguna marcada = acceso a todas)</span></label>
+      <div class="chk-list">${empresas.map(e=>`<label class="chk-item"><input type="checkbox" class="memp-chk" value="${e.id}" ${checkedEmpresas.includes(e.id)?'checked':''}> ${e.nombre}</label>`).join('')}</div>
+    </div>`}
+    </div></div>
     <div class="mfoot"><button class="btn" id="mc">Cancelar</button><button class="btn btn-primary" id="ms">${eu?'Guardar cambios':'Crear usuario'}</button></div>`;}
   else if(S.modal==='edit-horario'){
     const h=S.editHorario,selE=h.empleado.eId?parseInt(h.empleado.eId):null,avC=selE?casinos.filter(c=>c.eId===selE):casinos,selQ=h.quincena;
@@ -852,7 +975,30 @@ function rModal(){
       <div class="mfoot"><button class="btn" id="mc">Cerrar</button><button class="btn btn-primary" id="ms-liq">Marcar como liquidado</button></div>`;}
   }else if(S.modal==='liq-quincena'){c=rLiqQuincena();}
   else if(S.modal==='firma-link'){c=rModalFirmaLink(S.mdata.hId);}
+  else if(S.modal==='hist-horario'){c=rHistHorario(S.mdata.hId);}
+  else if(S.modal==='rol-form'){c=rRolForm();}
   return`<div class="modal-bg" id="mbg"><div class="modal">${c}</div></div>`;
+}
+
+function rHistHorario(hId){
+  const h=getH(hId);
+  const eventos=S.data.logs.filter(l=>l.horarioId===hId).slice().sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+  return`<div class="modal-head"><div class="modal-head-icon"><i class="ti ti-history" style="color:var(--gold)"></i></div>
+    <div><h3>Historial — Horario #${hId}</h3>${h?`<div style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}</div>`:''}</div></div>
+  <div class="modal-body">
+    ${eventos.length===0?`<div class="empty"><i class="ti ti-history"></i><p>Sin eventos registrados todavía.</p></div>`:`
+    <div class="hist-timeline">
+      ${eventos.map(l=>`<div class="hist-item">
+        <div class="hist-dot"></div>
+        <div class="hist-content">
+          <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-weight:500;font-size:13px">${l.desc}</span><span style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap">${new Date(l.ts).toLocaleString('es-CO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</span></div>
+          ${l.detalle?`<div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">${l.detalle}</div>`:''}
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:3px"><i class="ti ti-user" style="font-size:11px"></i> ${l.usuario} · <span class="tag" style="font-size:10px">${LOG_LABELS[l.tipo]||l.tipo}</span></div>
+        </div>
+      </div>`).join('')}
+    </div>`}
+  </div>
+  <div class="mfoot"><button class="btn" id="mc">Cerrar</button></div>`;
 }
 
 function rLiqQuincena(){
@@ -975,7 +1121,7 @@ function enviarWhatsApp(hId){
   const link=genFirmaLink(hId),cas=getCasNombre(h.empleado.cId);
   const qInfo=h.quincena?`\n📅 Período: ${quincenaPeriodo(h.quincena.year,h.quincena.month,h.quincena.q)}`:'';
   const msg=encodeURIComponent(`Hola ${h.empleado.nombre}, te enviamos tu horario de ${cas}.${qInfo}\n\n🔗 Link de firma:\n${link}\n\n_Sistema de Horarios_`);
-  addLog('link',`Link de firma enviado — horario #${hId}`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
+  addLog('link',`Link de firma enviado — horario #${hId}`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`,null,hId);
   window.open(`https://wa.me/?text=${msg}`,'_blank');
 }
 
@@ -989,7 +1135,7 @@ function initAdminCanvas(){
   function gp(e){const r=canvas.getBoundingClientRect();if(e.touches)return{x:e.touches[0].clientX-r.left,y:e.touches[0].clientY-r.top};return{x:e.clientX-r.left,y:e.clientY-r.top}}
   function start(e){e.preventDefault();drawing=true;const p=gp(e);lx=p.x;ly=p.y;if(hint)hint.style.opacity='0'}
   function move(e){e.preventDefault();if(!drawing)return;const p=gp(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y}
-  function end(e){e.preventDefault();if(!drawing)return;drawing=false;SIG.admin=canvas.toDataURL();wrap?.classList.add('signed');addLog('firma-admin','Firma del administrador registrada',`Casino: ${getCasNombre(S.emp.cId)}`);
+  function end(e){e.preventDefault();if(!drawing)return;drawing=false;SIG.admin=canvas.toDataURL();wrap?.classList.add('signed');addLog('firma-admin','Firma del administrador registrada',`Casino: ${getCasNombre(S.emp.cId)}`,null,null);
     const act=document.getElementById('sig-act-admin');if(act){act.innerHTML=`<div class="sig-status ok"><i class="ti ti-circle-check"></i>Firma registrada</div><button class="btn-clear-sig" data-clear-sig="admin"><i class="ti ti-trash" style="font-size:11px"></i>Limpiar</button>`;
     act.querySelector('[data-clear-sig]').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);SIG.admin=null;wrap?.classList.remove('signed');if(hint)hint.style.opacity='1';act.innerHTML=`<div class="sig-status"><i class="ti ti-circle-dashed"></i>Sin firma</div>`})}}
   canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',end);canvas.addEventListener('mouseleave',end);
@@ -1019,14 +1165,14 @@ async function commitEdit(){
   try{ await persistHorario(h); }catch(err){ alert('No se pudo guardar el horario: '+(err?.error||'error desconocido')); return false; }
   if(orig){
     const emp=h.empleado,oemp=orig.empleado;
-    if(emp.nombre!==oemp.nombre)addLog('edit',`Horario #${h.id}: nombre cambiado`,`"${oemp.nombre}" → "${emp.nombre}"`);
-    if(emp.cargo!==oemp.cargo)addLog('edit',`Horario #${h.id}: cargo cambiado`,`"${oemp.cargo||'—'}" → "${emp.cargo||'—'}"`);
-    if(emp.cId!==oemp.cId)addLog('edit',`Horario #${h.id}: casino cambiado`,`"${getCasNombre(oemp.cId)}" → "${getCasNombre(emp.cId)}"`);
+    if(emp.nombre!==oemp.nombre)addLog('edit',`Horario #${h.id}: nombre cambiado`,`"${oemp.nombre}" → "${emp.nombre}"`,null,h.id);
+    if(emp.cargo!==oemp.cargo)addLog('edit',`Horario #${h.id}: cargo cambiado`,`"${oemp.cargo||'—'}" → "${emp.cargo||'—'}"`,null,h.id);
+    if(emp.cId!==oemp.cId)addLog('edit',`Horario #${h.id}: casino cambiado`,`"${getCasNombre(oemp.cId)}" → "${getCasNombre(emp.cId)}"`,null,h.id);
     const rowsDiff=h.rows.length-orig.rows.length;
-    if(rowsDiff>0)addLog('row-add',`Horario #${h.id}: ${rowsDiff} día${rowsDiff!==1?'s':''} agregado${rowsDiff!==1?'s':''}`,`Empleado: ${emp.nombre}`);
-    if(rowsDiff<0)addLog('row-del',`Horario #${h.id}: ${Math.abs(rowsDiff)} día${Math.abs(rowsDiff)!==1?'s':''} eliminado${Math.abs(rowsDiff)!==1?'s':''}`,`Empleado: ${emp.nombre}`);
-    orig.rows.forEach((or,i)=>{const nr=h.rows[i];if(!nr)return;if(nr.fecha!==or.fecha||nr.entrada!==or.entrada||nr.salida!==or.salida||nr.estado!==or.estado)addLog('row-edit',`Horario #${h.id}: fila ${i+1} modificada`,`${nr.fecha||'—'} · ${nr.estado}${nr.estado==='Horario'?` ${nr.entrada||'?'}–${nr.salida||'?'}`:''}`)});
-    if(JSON.stringify(h.rows)!==JSON.stringify(orig.rows)||JSON.stringify(h.empleado)!==JSON.stringify(orig.empleado))addLog('edit',`Horario #${h.id} guardado con cambios`,`Empleado: ${emp.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
+    if(rowsDiff>0)addLog('row-add',`Horario #${h.id}: ${rowsDiff} día${rowsDiff!==1?'s':''} agregado${rowsDiff!==1?'s':''}`,`Empleado: ${emp.nombre}`,null,h.id);
+    if(rowsDiff<0)addLog('row-del',`Horario #${h.id}: ${Math.abs(rowsDiff)} día${Math.abs(rowsDiff)!==1?'s':''} eliminado${Math.abs(rowsDiff)!==1?'s':''}`,`Empleado: ${emp.nombre}`,null,h.id);
+    orig.rows.forEach((or,i)=>{const nr=h.rows[i];if(!nr)return;if(nr.fecha!==or.fecha||nr.entrada!==or.entrada||nr.salida!==or.salida||nr.estado!==or.estado)addLog('row-edit',`Horario #${h.id}: fila ${i+1} modificada`,`${nr.fecha||'—'} · ${nr.estado}${nr.estado==='Horario'?` ${nr.entrada||'?'}–${nr.salida||'?'}`:''}`,null,h.id)});
+    if(JSON.stringify(h.rows)!==JSON.stringify(orig.rows)||JSON.stringify(h.empleado)!==JSON.stringify(orig.empleado))addLog('edit',`Horario #${h.id} guardado con cambios`,`Empleado: ${emp.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`,null,h.id);
   }
   const idx=S.data.horarios.findIndex(x=>x.id===h.id);
   if(idx>-1){S.data.horarios[idx]=JSON.parse(JSON.stringify(h))}
@@ -1053,7 +1199,7 @@ async function saveSchedule(){
     sigAdmin:SIG.admin||null,sigEmpleado:null,quincena:{...q},quincenaKey:quincenaKey(q.year,q.month,q.q)
   };
   S.data.horarios.push(newH);
-  addLog('save',`Horario creado — empleado: ${e.nombre}`,`Casino: ${getCasNombre(e.cId)} · ${quincenaLabel(q.year,q.month,q.q)} · ${S.rows.length} días${SIG.admin?' · Con firma admin':''}`);
+  addLog('save',`Horario creado — empleado: ${e.nombre}`,`Casino: ${getCasNombre(e.cId)} · ${quincenaLabel(q.year,q.month,q.q)} · ${S.rows.length} días${SIG.admin?' · Con firma admin':''}`,null,newH.id);
   S.rows=[];S.emp={nombre:'',documento:'',cargo:'',cId:S.user.cId||'',eId:S.user.eId||''};SIG.admin=null;
   S.modal='firma-link';S.mdata={hId:newH.id};render();
 }
@@ -1066,6 +1212,15 @@ function bApp(){
   document.getElementById('dash-logs-btn')?.addEventListener('click',()=>{S.menu='logs';render()});
   document.querySelectorAll('.tab').forEach(el=>el.addEventListener('click',()=>{S.rrhhTab=el.dataset.tab;render()}));
   document.getElementById('ne-btn')?.addEventListener('click',()=>{S.modal='new-empresa';S.mdata={};render()});
+  document.getElementById('nr-btn')?.addEventListener('click',()=>{S.modal='rol-form';S.mdata={};render()});
+  document.querySelectorAll('[data-er]').forEach(el=>el.addEventListener('click',()=>{S.modal='rol-form';S.mdata={editId:parseInt(el.dataset.er)};render()}));
+  document.querySelectorAll('[data-dr]').forEach(el=>el.addEventListener('click',async()=>{
+    const id=parseInt(el.dataset.dr),r=S.data.roles.find(x=>x.id===id);
+    if(!confirm(`¿Seguro que quieres eliminar el rol "${r?.nombre||id}"? Esta acción no se puede deshacer.`))return;
+    try{await api('DELETE','/roles/'+id)}catch(err){alert('No se pudo eliminar el rol: '+(err?.error||'error desconocido'));return}
+    addLog('delete',`Rol eliminado: ${r?.nombre||id}`);
+    S.data.roles=S.data.roles.filter(x=>x.id!==id);render()
+  }));
   document.querySelectorAll('[data-ee]').forEach(el=>el.addEventListener('click',()=>{S.modal='new-empresa';S.mdata={editId:parseInt(el.dataset.ee)};render()}));
   document.getElementById('cc-btn')?.addEventListener('click',()=>{S.selEmp=null;render()});
   document.querySelectorAll('[data-sc]').forEach(el=>el.addEventListener('click',()=>{S.selEmp=parseInt(el.dataset.sc);render()}));
@@ -1098,9 +1253,9 @@ function bApp(){
   document.getElementById('q-sel-form')?.addEventListener('change',e=>{const key=e.target.value,opt=genQOpts().find(o=>o.key===key);if(opt)S.selQ={year:opt.year,month:opt.month,q:opt.q};render()});
   document.getElementById('add-row')?.addEventListener('click',()=>{S.rows.push({fecha:'',estado:'Horario',entrada:'',salida:'',entradaErr:false,salidaErr:false});render()});
   document.getElementById('save-sch')?.addEventListener('click',saveSchedule);
-  document.getElementById('edit-add-row')?.addEventListener('click',()=>{S.editHorario.rows.push({fecha:'',estado:'Horario',entrada:'',salida:'',entradaErr:false,salidaErr:false});addLog('row-add',`Horario #${S.editHorario.id}: nueva fila`,`Empleado: ${S.editHorario.empleado.nombre}`);render()});
+  document.getElementById('edit-add-row')?.addEventListener('click',()=>{S.editHorario.rows.push({fecha:'',estado:'Horario',entrada:'',salida:'',entradaErr:false,salidaErr:false});addLog('row-add',`Horario #${S.editHorario.id}: nueva fila`,`Empleado: ${S.editHorario.empleado.nombre}`,null,S.editHorario.id);render()});
   document.querySelectorAll('[data-dr]').forEach(el=>el.addEventListener('click',()=>{S.rows.splice(parseInt(el.dataset.dr),1);render()}));
-  document.querySelectorAll('[data-edr]').forEach(el=>el.addEventListener('click',()=>{const i=parseInt(el.dataset.edr),r=S.editHorario.rows[i];addLog('row-del',`Horario #${S.editHorario.id}: fila ${i+1} eliminada`,`${r?.fecha||'—'} · ${r?.estado||'?'}`);S.editHorario.rows.splice(i,1);render()}));
+  document.querySelectorAll('[data-edr]').forEach(el=>el.addEventListener('click',()=>{const i=parseInt(el.dataset.edr),r=S.editHorario.rows[i];addLog('row-del',`Horario #${S.editHorario.id}: fila ${i+1} eliminada`,`${r?.fecha||'—'} · ${r?.estado||'?'}`,null,S.editHorario.id);S.editHorario.rows.splice(i,1);render()}));
   bindRowInputs();
   document.getElementById('en')?.addEventListener('input',e=>{if(S.modal==='edit-horario'&&S.editHorario)S.editHorario.empleado.nombre=e.target.value;else S.emp.nombre=e.target.value});
   document.getElementById('ed')?.addEventListener('input',e=>{if(S.modal==='edit-horario'&&S.editHorario)S.editHorario.empleado.documento=e.target.value;else S.emp.documento=e.target.value});
@@ -1116,7 +1271,7 @@ function bApp(){
   document.querySelectorAll('[data-expand-mes]').forEach(el=>el.addEventListener('click',()=>{const k=el.dataset.expandMes;S.histFiltro.expandedMes=S.histFiltro.expandedMes===k?null:k;render()}));
   document.querySelectorAll('[data-expand-q]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();const k=el.dataset.expandQ;S.histFiltro.expandedQ=S.histFiltro.expandedQ===k?null:k;render()}));
   document.querySelectorAll('[data-liq-q]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();S.modal='liq-quincena';S.mdata={qKey:el.dataset.liqQ};render()}));
-  document.querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('click',()=>{const h=getH(parseInt(el.dataset.edit));if(!h)return;S.editHorario=JSON.parse(JSON.stringify(h));S.modal='edit-horario';addLog('edit',`Horario #${h.id} abierto para edición`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);render()}));
+  document.querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('click',()=>{const h=getH(parseInt(el.dataset.edit));if(!h)return;S.editHorario=JSON.parse(JSON.stringify(h));S.modal='edit-horario';addLog('edit',`Horario #${h.id} abierto para edición`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`,null,h.id);render()}));
   document.querySelectorAll('[data-liq]').forEach(el=>el.addEventListener('click',()=>{S.liqId=parseInt(el.dataset.liq);S.modal='liquidar-persona';render()}));
   document.querySelectorAll('[data-dh]').forEach(el=>el.addEventListener('click',async()=>{
     const id=parseInt(el.dataset.dh),h=getH(id);
@@ -1126,6 +1281,7 @@ function bApp(){
     S.data.horarios=S.data.horarios.filter(x=>x.id!==id);render()
   }));
   document.querySelectorAll('[data-wa]').forEach(el=>el.addEventListener('click',()=>{S.modal='firma-link';S.mdata={hId:parseInt(el.dataset.wa)};render()}));
+  document.querySelectorAll('[data-hist]').forEach(el=>el.addEventListener('click',()=>{S.modal='hist-horario';S.mdata={hId:parseInt(el.dataset.hist)};render()}));
   document.getElementById('lf-tipo')?.addEventListener('change',e=>{S.logFiltro.tipo=e.target.value;render()});
   document.getElementById('lf-user')?.addEventListener('input',e=>{S.logFiltro.usuario=e.target.value;render()});
   document.getElementById('lf-txt')?.addEventListener('input',e=>{S.logFiltro.texto=e.target.value;render()});
@@ -1133,13 +1289,21 @@ function bApp(){
   document.getElementById('mbg')?.addEventListener('click',e=>{if(e.target.id==='mbg'){S.modal=null;render()}});
   document.getElementById('mc')?.addEventListener('click',()=>{S.modal=null;render()});
   document.getElementById('memp')?.addEventListener('change',()=>{const eId=document.getElementById('memp')?.value,sel=document.getElementById('mcas');if(!sel)return;const avC=eId?S.data.casinos.filter(c=>c.eId===parseInt(eId)):[];sel.innerHTML='<option value="">Sin casino</option>'+avC.map(c=>`<option value="${c.id}">${c.nombre}</option>`).join('')});
+  document.getElementById('mrol')?.addEventListener('change',e=>{
+    S.mdata.usuario=document.getElementById('mu')?.value;
+    S.mdata.pw=document.getElementById('mpw')?.value;
+    S.mdata.eId=document.getElementById('memp')?.value||'';
+    S.mdata.empresaIds=[...document.querySelectorAll('.memp-chk:checked')].map(el=>parseInt(el.value));
+    S.mdata.rol=e.target.value;
+    render();
+  });
   document.getElementById('ms')?.addEventListener('click',handleSave);
   document.getElementById('ms-edit-liq')?.addEventListener('click',async()=>{const idP=S.editHorario?.id;if(!idP)return;if(!await commitEdit())return;S.liqId=idP;S.modal='liquidar-persona';render()});
   document.getElementById('ms-liq')?.addEventListener('click',async()=>{
     const h=getH(S.liqId);if(!h)return;
     h.estado='Liquidado';
     try{await persistHorario(h)}catch(err){alert('No se pudo liquidar el horario: '+(err?.error||'error desconocido'));return}
-    addLog('liquidado',`Horario #${h.id} liquidado`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`);
+    addLog('liquidado',`Horario #${h.id} liquidado`,`Empleado: ${h.empleado.nombre}${h.quincena?' · '+quincenaLabel(h.quincena.year,h.quincena.month,h.quincena.q):''}`,null,h.id);
     S.modal=null;render()
   });
   document.getElementById('ms-liq-q')?.addEventListener('click',async()=>{
@@ -1147,7 +1311,7 @@ function bApp(){
     for(const h of pend){
       h.estado='Liquidado';
       try{await persistHorario(h)}catch(err){alert(`No se pudo liquidar el horario #${h.id}: `+(err?.error||'error desconocido'));continue}
-      addLog('liquidado',`Horario #${h.id} liquidado (quincena)`,`Empleado: ${h.empleado.nombre}`);
+      addLog('liquidado',`Horario #${h.id} liquidado (quincena)`,`Empleado: ${h.empleado.nombre}`,null,h.id);
     }
     S.modal=null;render()
   });
@@ -1161,10 +1325,10 @@ function bindRowInputs(){
     el.addEventListener('change',()=>{
       const i=parseInt(el.dataset.r),f=el.dataset.f,rows=arr();if(!rows[i])return;
       const prev={...rows[i]};
-      if(f==='estado'){rows[i][f]=el.value;if(isEdit)addLog('estado',`Horario #${S.editHorario?.id}: estado fila ${i+1}`,`${prev.estado} → ${el.value}`);render();return}
-      if(f==='fecha'){rows[i][f]=el.value;if(isEdit&&el.value)addLog('row-edit',`Horario #${S.editHorario?.id}: fecha fila ${i+1}`,`${prev.fecha||'—'} → ${el.value}`);render();return}
+      if(f==='estado'){rows[i][f]=el.value;if(isEdit)addLog('estado',`Horario #${S.editHorario?.id}: estado fila ${i+1}`,`${prev.estado} → ${el.value}`,null,S.editHorario?.id);render();return}
+      if(f==='fecha'){rows[i][f]=el.value;if(isEdit&&el.value)addLog('row-edit',`Horario #${S.editHorario?.id}: fecha fila ${i+1}`,`${prev.fecha||'—'} → ${el.value}`,null,S.editHorario?.id);render();return}
       const v=el.value.replace(/[^0-9:]/g,'');rows[i][f]=v;rows[i][f+'Err']=!valTime(v);
-      if(isEdit&&v&&!rows[i][f+'Err'])addLog('row-edit',`Horario #${S.editHorario?.id}: hora ${f} fila ${i+1}`,`${prev[f]||'—'} → ${v}`);
+      if(isEdit&&v&&!rows[i][f+'Err'])addLog('row-edit',`Horario #${S.editHorario?.id}: hora ${f} fila ${i+1}`,`${prev[f]||'—'} → ${v}`,null,S.editHorario?.id);
       render();
     });
     if(el.classList.contains('ti-inp')){el.addEventListener('input',()=>{let v=el.value.replace(/[^0-9]/g,'');if(v.length>4)v=v.slice(0,4);if(v.length>2)v=v.slice(0,2)+':'+v.slice(2);el.value=v})}
@@ -1206,26 +1370,55 @@ async function handleSave(){
   }
   else if(S.modal==='new-usuario'){
     const u=document.getElementById('mu').value.trim(),pw=document.getElementById('mpw').value.trim(),rol=document.getElementById('mrol').value;
-    const eId=document.getElementById('memp').value?parseInt(document.getElementById('memp').value):null;
-    const cId=document.getElementById('mcas').value?parseInt(document.getElementById('mcas').value):null;
     const editId=S.mdata?.editId;
     if(!u)return;
     if(!editId&&!pw)return;
-    const body={usuario:u,rol,empresa_id:eId,casino_id:cId};
+    let eId=null,cId=null,empresaIds=[];
+    if(rolAsignacion(rol)==='single_casino'){
+      eId=document.getElementById('memp').value?parseInt(document.getElementById('memp').value):null;
+      cId=document.getElementById('mcas').value?parseInt(document.getElementById('mcas').value):null;
+    }else{
+      empresaIds=[...document.querySelectorAll('.memp-chk:checked')].map(el=>parseInt(el.value));
+    }
+    const body={usuario:u,rol,empresa_id:eId,casino_id:cId,empresa_ids:empresaIds};
     if(pw)body.password=pw;
     try{
       if(editId){
         const updated=await api('PUT','/usuarios/'+editId,body);
         const idx=S.data.usuarios.findIndex(x=>x.id===editId);
-        if(idx>-1)S.data.usuarios[idx]={...updated,eId:updated.empresa_id,cId:updated.casino_id};
+        if(idx>-1)S.data.usuarios[idx]={...updated,eId:updated.empresa_id,cId:updated.casino_id,empresaIds:updated.empresa_ids||[]};
         addLog('edit',`Usuario editado: ${u}`,`Rol: ${rol}`);
       }else{
         const created=await api('POST','/usuarios',body);
-        S.data.usuarios.push({...created,eId:created.empresa_id,cId:created.casino_id});
+        S.data.usuarios.push({...created,eId:created.empresa_id,cId:created.casino_id,empresaIds:created.empresa_ids||[]});
         addLog('create',`Usuario creado: ${u}`,`Rol: ${rol}`);
       }
     }catch(err){ alert('No se pudo guardar el usuario: '+(err?.error||'error desconocido')); return; }
   }else if(S.modal==='edit-horario'){if(!await commitEdit())return}
+  else if(S.modal==='rol-form'){
+    const nombre=document.getElementById('mrnombre').value.trim();if(!nombre)return;
+    const asignacion=document.getElementById('mrasig').value;
+    const permisos={};
+    document.querySelectorAll('.perm-chk').forEach(el=>{
+      const mod=el.dataset.mod,accion=el.dataset.accion;
+      if(!permisos[mod])permisos[mod]={};
+      permisos[mod][accion]=el.checked;
+    });
+    const editId=S.mdata?.editId;
+    try{
+      if(editId){
+        const updated=await api('PUT','/roles/'+editId,{nombre,asignacion,permisos});
+        const idx=S.data.roles.findIndex(x=>x.id===editId);
+        if(idx>-1)S.data.roles[idx]=updated;
+        addLog('edit',`Rol editado: ${updated.nombre}`);
+        if(S.user.rol===updated.nombre){S.user.permisos=updated.permisos;S.user.asignacion=updated.asignacion}
+      }else{
+        const created=await api('POST','/roles',{nombre,asignacion,permisos});
+        S.data.roles.push(created);
+        addLog('create',`Rol creado: ${created.nombre}`);
+      }
+    }catch(err){ alert('No se pudo guardar el rol: '+(err?.error||'error desconocido')); return; }
+  }
   S.modal=null;S.mdata={};render();
 }
 window.addEventListener('hashchange',()=>render());
